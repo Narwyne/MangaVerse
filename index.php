@@ -24,7 +24,7 @@ body{
 #logo{
     height: 48px;
     width: 200px;
-    background-image: url(picture/MangaVerse.png);
+    background-image: url(pictures/MangaVerse.png);
     background-size: 200px;
     background-repeat: no-repeat;
     background-position: center;
@@ -58,7 +58,7 @@ body{
     margin-bottom: 15px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url(picture/Best-Shonen-Mangas-Recommendations.jpg);
+    background-image: url(pictures/Best-Shonen-Mangas-Recommendations.jpg);
     margin-left: 5px;
 }
 .item2p2{
@@ -66,7 +66,7 @@ body{
     grid-column: 4/7;
     margin-top: 15px;
     margin-bottom: 15px;
-    background-image: url(picture/C20241210.webp);
+    background-image: url(pictures/C20241210.webp);
     background-size: cover;
     background-repeat: no-repeat;
     margin-right: 5px;
