@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Home</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <script src="caroselScript.js" defer></script>
 
 </head>
 <body>
@@ -201,6 +202,42 @@ body{
   'GRAD' 200,
   'opsz' 48
 }
+.carosel {
+  grid-column: 1 / 7;
+  position: relative;
+  height: 390px;
+  margin: 15px 5px;
+  overflow: hidden;
+  border-radius: 5px;
+  /* margin-left: 20px;
+  margin-right: 20px; */
+}
+
+.slides {
+  display: flex;
+  height: 100%;
+  transition: transform 1s ease;
+}
+
+.slides img {
+  flex: 0 0 50%; /* two images per view */
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+/* Animation: slides to the next pair of images */
+@keyframes slideDouble {
+  0% { transform: translateX(0%); }
+  45% { transform: translateX(0%); }
+  50% { transform: translateX(-100%); }
+  95% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+
  </style>
     <div class="container">
                 <div class="item header">
@@ -213,8 +250,19 @@ body{
 
                         <button><span class="material-symbols-outlined">menu</span></button>
                 </div>
-        <div class="item carosel">2</div>
-        <div class="item caroselp2">2p2</div>
+                        <div class="item carosel">
+                        <div class="slides">
+                            <img src="pictures/Best-Shonen-Mangas-Recommendations.jpg" alt="Slide 1">
+                            <img src="pictures/C20241210.webp" alt="Slide 2">
+                            <img src="pictures/123123.jpg" alt="Slide 3">
+                            <img src="pictures/3307142.jpg" alt="Slide 4">
+                            <img src="pictures/OIP.webp" alt="Slide 5">
+                            <img src="pictures/underrated-shounen-manga.avif" alt="Slide 6">
+                        </div>
+                        </div>
+
+
+
         <div class="item item3top">  Latest Chapter</div>
         <div class="item recommendationsTop">Recommendations</div>
 
@@ -248,5 +296,6 @@ body{
         <div class="item item5">5</div>
         <div class="item item6">6</div>
     </div>
+
 </body>
 </html>
