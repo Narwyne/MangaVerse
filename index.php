@@ -4,73 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="sidebar.css">
   <title>Home</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <script src="caroselScript.js" defer></script>
+  <script src="sidebarScript.js" defer></script>
 
-  <style>
-    /* Sidebar styles */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: -250px; /* Start hidden on the right */
-      width: 250px;
-      height: 100%;
-      background-color: #111;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 50px;
-      transition: right 0.3s ease;
-      z-index: 1000;
-    }
-
-    .sidebar.active {
-      right: 0; /* Slide in from the right */
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: white;
-      background-color: #333;
-      width: 80%;
-      text-align: center;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: #facc15;
-      color: black;
-    }
-
-    .sidebar .logout {
-      background-color: #e11d48;
-    }
-
-    .sidebar .logout:hover {
-      background-color: #f43f5e;
-    }
-
-    /* Overlay */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: none;
-      z-index: 900;
-    }
-
-    .overlay.active {
-      display: block;
-    }
-  </style>
 </head>
 <body>
 
@@ -97,6 +36,14 @@
 
     <div class="item carosel">
       <div class="slides">
+        <img src="pictures/Best-Shonen-Mangas-Recommendations.jpg" alt="Slide 1">
+        <img src="pictures/C20241210.webp" alt="Slide 2">
+        <img src="pictures/123123.jpg" alt="Slide 3">
+        <img src="pictures/3307142.jpg" alt="Slide 4">
+        <img src="pictures/OIP.webp" alt="Slide 5">
+        <img src="pictures/underrated-shounen-manga.avif" alt="Slide 6">
+
+                <!-- duplicate images for infinite loop -->
         <img src="pictures/Best-Shonen-Mangas-Recommendations.jpg" alt="Slide 1">
         <img src="pictures/C20241210.webp" alt="Slide 2">
         <img src="pictures/123123.jpg" alt="Slide 3">
@@ -138,19 +85,7 @@
   </div>
 
   <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
 
-    menuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      overlay.classList.toggle('active');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-    });
   </script>
 
 </body>

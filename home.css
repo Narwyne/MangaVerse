@@ -205,23 +205,24 @@ body{
 .slides {
   display: flex;
   height: 100%;
-  transition: transform 1s ease;
+  width: max-content;
+  animation: infiniteScroll 20s linear infinite;
 }
 
 .slides img {
-  flex: 0 0 50%; /* two images per view */
+  flex: 0 0 50%;
   width: 50%;
   height: 100%;
   object-fit: cover;
 }
 
-
-
-/* Animation: slides to the next pair of images */
-@keyframes slideDouble {
-  0% { transform: translateX(0%); }
-  45% { transform: translateX(0%); }
-  50% { transform: translateX(-100%); }
-  95% { transform: translateX(-100%); }
-  100% { transform: translateX(0%); }
+/* Infinite horizontal scroll */
+@keyframes infiniteScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
+
