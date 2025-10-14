@@ -90,27 +90,7 @@ body{
   font-size: 24px;
 }
 
-.carosel{
-    /* recomendation picture 1 */
-    grid-column: 1 / 4;
-    height: 300px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url(pictures/Best-Shonen-Mangas-Recommendations.jpg);
-    margin-left: 5px;
-}
-.caroselp2{
-    /* recomendation picture 2 */
-    grid-column: 4/7;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-image: url(pictures/C20241210.webp);
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-right: 5px;
-}
+
 .item3top{
     /* Latest chapter top */
     grid-column: 1/6;
@@ -205,24 +185,23 @@ body{
 .slides {
   display: flex;
   height: 100%;
-  width: max-content;
-  animation: infiniteScroll 20s linear infinite;
+  transition: transform 1s ease;
 }
 
 .slides img {
-  flex: 0 0 50%;
+  flex: 0 0 50%; /* two images per view */
   width: 50%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Infinite horizontal scroll */
-@keyframes infiniteScroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
 
+
+/* Animation: slides to the next pair of images */
+@keyframes slideDouble {
+  0% { transform: translateX(0%); }
+  45% { transform: translateX(0%); }
+  50% { transform: translateX(-100%); }
+  95% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}

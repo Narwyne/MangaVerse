@@ -42,14 +42,6 @@
         <img src="pictures/3307142.jpg" alt="Slide 4">
         <img src="pictures/OIP.webp" alt="Slide 5">
         <img src="pictures/underrated-shounen-manga.avif" alt="Slide 6">
-
-                <!-- duplicate images for infinite loop -->
-        <img src="pictures/Best-Shonen-Mangas-Recommendations.jpg" alt="Slide 1">
-        <img src="pictures/C20241210.webp" alt="Slide 2">
-        <img src="pictures/123123.jpg" alt="Slide 3">
-        <img src="pictures/3307142.jpg" alt="Slide 4">
-        <img src="pictures/OIP.webp" alt="Slide 5">
-        <img src="pictures/underrated-shounen-manga.avif" alt="Slide 6">
       </div>
     </div>
 
@@ -83,10 +75,6 @@
     <div class="item item5">5</div>
     <div class="item item6">6</div>
   </div>
-
-  <script>
-
-  </script>
 
 </body>
 </html>

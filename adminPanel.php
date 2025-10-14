@@ -8,9 +8,9 @@
 <body>
 
 <style>
-body{
+/* body{
     background-color: rgba(19, 18, 18, 1);
-}
+} */
 
 </style>
 
