@@ -1,0 +1,84 @@
+body{
+    background-color: rgba(41, 41, 41, 1);
+    margin: 0%;
+
+}
+.aPanel{
+    display: grid;
+    grid-template-columns: 250px auto auto auto;
+}
+.panel{
+    /* border: 5px solid white; */
+}
+.aTop{
+    grid-column: 1/5;
+    height: 60px;
+    background-color: rgba(19, 18, 18, 1);
+    color: aliceblue;
+    font-style: normal;
+    font-size: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+#mangaverse{
+    width: 600px;
+    margin-top: 11px;
+    margin-left: 19px;
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: auto; /* You can adjust this as needed */
+    letter-spacing: 0%;
+    text-align: left; /* Adjust alignment as needed */
+    vertical-align: middle; /* Adjust vertical alignment if needed */
+}
+#verse{
+    color: rgba(239, 191, 4, 1);
+}
+.aTop button {
+  width: 43px;
+  height: 43px;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  margin-right: 10px;
+}
+.aTop button:hover {
+  background-color: rgba(239, 191, 4, 1);
+  border-radius: 5px;
+}
+.aSide{
+    grid-column: 1/2;
+    height: 700px;
+    background-color: rgba(76, 76, 76, 1);
+    justify-content: center;
+}
+.aSide button{
+    width: 230px;
+    height: 50px;
+    margin-top: 6px;
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: rgba(239, 191, 4, 1);
+    border-radius: 5px;
+    color: whitesmoke;
+}
+.aSide button:disabled{
+    background-color: black;
+}
+.aSide button:disabled:hover{
+    background-color: black;
+    cursor: default;
+}
+.aSide button:hover{
+    cursor: pointer;
+}
+.aMain{
+    grid-column: 2/5;
+}

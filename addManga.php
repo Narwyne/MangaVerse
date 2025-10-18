@@ -19,8 +19,8 @@
     </div>
 
     <div class="panel aSide">
-        <button disabled="disabled">Admin Panel</button> <br>
-        <button onclick="window.location.href='addManga.php';">Add Manga</button> <br>
+        <button onclick="window.location.href='adminPanel.php';">Admin Panel</button> <br>
+        <button disabled="disabled">Add Manga</button> <br>
         <button onclick="window.location.href='addChapter.php';">Add Chapter</button> <br>
         <button onclick="window.location.href='editManga.php';">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
