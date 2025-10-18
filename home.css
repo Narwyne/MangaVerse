@@ -1,5 +1,6 @@
 body{
     background-color: rgba(19, 18, 18, 1);
+    margin: 0%;
 }
 .container{
     display: grid;
@@ -23,12 +24,10 @@ body{
 .header{
     /* header */
     grid-column: 1 / 7;
-    height: 50px;
+    height: 60px;
     background-color: rgba(19, 18, 18, 1);
     display: flex;
     justify-content: space-between;
-    /* align-content: center; */
-
 }
 .header button {
   width: 43px;
@@ -156,12 +155,6 @@ body{
     background-color: black;
     display: flex;
 
-
-}
-.picture{
-    /* background-color: whitesmoke;
-    align-content: flex-start;
-    width: 200px; */
 
 }
 .material-symbols-outlined {
