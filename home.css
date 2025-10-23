@@ -20,6 +20,7 @@ body{
     background-position: center;
     margin-left: 10px;
     justify-content: flex-start;
+    margin-top: 10px;
 }
 .header{
     /* header */
@@ -47,6 +48,10 @@ body{
 .material-symbols-outlined {
   font-size: 28px;
 }
+#menuBtn{
+  margin-top: 9px;
+  margin-right: 9px;
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -57,6 +62,7 @@ body{
   height: 40px;
   position: relative;
   right: 30px;
+  margin-top: 9px;
 }
 
 .search-bar input {

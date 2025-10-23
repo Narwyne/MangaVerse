@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>adminPanel</title>
+    <title>deleteManga</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
@@ -33,7 +33,7 @@
                 <div class="sidebar" id="sidebar">
                     <a href="#">Profile</a>
                     <a href="#">About Us</a>
-                    <a href="#">Admin Panel</a>
+                    <a href="adminPanel.php">Admin Panel</a>
                     <a href="#" class="logout">Log Out</a>
                 </div>
 

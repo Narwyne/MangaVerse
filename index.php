@@ -17,7 +17,7 @@
   <div class="sidebar" id="sidebar">
     <a href="#">Profile</a>
     <a href="#">About Us</a>
-    <a href="#">Admin Panel</a>
+    <a href="adminPanel.php">Admin Panel</a>
     <a href="#" class="logout">Log Out</a>
   </div>
 
