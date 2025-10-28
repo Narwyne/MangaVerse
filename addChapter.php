@@ -11,6 +11,16 @@
 </head>
 <body>
 
+<style>
+.addChr{
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+}
+.addChapterContent{
+    background-color: red;
+}
+</style>
+
 <div class="aPanel">
 
     <div class="panel aTop">
@@ -25,15 +35,22 @@
         <button onclick="window.location.href='editManga.php';">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>
-    <div class="panel aMain">3</div>
+    <div class="panel aMain">
+        <div class="mTop mmm">Add Chapter</div>
+        <div class="mMain addChr"> 
+            <div class="addChapterContent">1</div>
+            <div class="addChapterContent">2</div>
+            <div class="addChapterContent">3</div>
+        </div>
+    </div>
      
 
 </div>
                 <!-- Sidebar (Right Side) -->
                 <div class="sidebar" id="sidebar">
                     <a href="#">Profile</a>
+                    <a href="index.php">Home</a>
                     <a href="#">About Us</a>
-                    <a href="adminPanel.php">Admin Panel</a>
                     <a href="#" class="logout">Log Out</a>
                 </div>
 

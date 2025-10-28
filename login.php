@@ -163,6 +163,10 @@
     .top-logo span {
       color: #efbf04;
     }
+    .linput{
+      display: flex;
+      text-align: start;
+    }
   </style>
 </head>
 <body>
@@ -174,10 +178,10 @@
     <div class="login-box">
       <div class="login-header">Log in to your account</div>
       <form action="#" method="POST">
-        <label for="username">Username :</label>
+        <label class="linput" for="username">Username :</label>
         <input type="text" id="username" name="username" required />
 
-        <label for="password">Password :</label>
+        <label class="linput" for="password">Password :</label>
         <input type="password" id="password" name="password" required />
 
         <div class="options">
@@ -189,7 +193,7 @@
       </form>
 
       <div class="footer">
-        No account? <a href="#">Register</a>
+        No account? <a href="register.php">Register</a>
       </div>
     </div>
   </div>

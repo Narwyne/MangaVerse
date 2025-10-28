@@ -12,30 +12,18 @@
 <body>
 <style>
 /* ======= Base Panel ======= */
-.aMain{
+/* .aMain{
     background-color: rgba(239, 191, 4, 1);
     height: 50px;
     font-family: 'Istok Web', sans-serif;
     font-weight: bold;
     color: white;
     font-size: 30px;
-}
-.mmm{
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    margin-top: 7px;
-}
+} */
+
 
 /* ======= Main Box Styling ======= */
-.mMain{
-    height: 650px;
-    background-color: rgba(19, 18, 18, 1);
-    margin-top: 3px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .mBox {
     background-color: rgba(111, 110, 110, 1);
@@ -165,6 +153,7 @@
                     <img id="preview" src="#" alt="Preview" style="display:none;">
                 </div>
 
+                    <!-- Checkboxes -->
                 <div class="mContent">
                     <label>Genre :</label>
                     <div class="genre-container">
@@ -201,8 +190,8 @@
 <!-- Sidebar (Right Side) -->
 <div class="sidebar" id="sidebar">
     <a href="#">Profile</a>
+    <a href="index.php">Home</a>
     <a href="#">About Us</a>
-    <a href="adminPanel.php">Admin Panel</a>
     <a href="#" class="logout">Log Out</a>
 </div>
 

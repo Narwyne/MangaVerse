@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
-    <script src="editManga.js" defer></script>
+    <script src="sidebarScript.js" defer></script>
 </head>
 <body>
 
@@ -25,15 +25,18 @@
         <button disabled="disabled">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>
-    <div class="panel aMain">3</div>
-     
+    <div class="panel aMain">
+        <div class="mTop mmm">Edit Manga</div>
+        <div class="mMain"> </div>
+    </div>
+        
 
 </div>
                 <!-- Sidebar (Right Side) -->
                 <div class="sidebar" id="sidebar">
                     <a href="#">Profile</a>
+                    <a href="index.php">Home</a>
                     <a href="#">About Us</a>
-                    <a href="adminPanel.php">Admin Panel</a>
                     <a href="#" class="logout">Log Out</a>
                 </div>
 
