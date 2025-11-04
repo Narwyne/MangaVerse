@@ -23,10 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
             $errors[] = 'File upload error (code: ' . $_FILES['photo']['error'] . ').';
         } else {
-            // Limit file size (25 MB)
-            $maxSize = 25 * 1024 * 1024; // 25 MB in bytes
-            if ($_FILES['photo']['size'] > $maxSize) {
-                $errors[] = 'File is too large. Maximum 25MB allowed.';
+                // Limit file size (25 MB)
+                $maxSize = 25 * 1024 * 1024; // 25 MB in bytes
+                if ($_FILES['photo']['size'] > $maxSize) {
+                    $errors[] = 'File is too large. Maximum 25MB allowed.';
             } else {
                 // Validate MIME type using finfo
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
