@@ -1,3 +1,111 @@
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Basic input sanitization and presence checks
+    $title = isset($_POST['title']) ? trim($_POST['title']) : '';
+    $genres = isset($_POST['genre']) && is_array($_POST['genre']) ? $_POST['genre'] : [];
+    $genres_str = implode(', ', array_map('trim', $genres));
+    $status = isset($_POST['status']) ? trim($_POST['status']) : '';
+
+    $errors = [];
+
+    if ($title === '') {
+        $errors[] = 'Title is required.';
+    }
+    if ($status === '') {
+        $errors[] = 'Status is required.';
+    }
+
+    // Handle image upload with validation
+    $photo = '';
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        if ($_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
+            $errors[] = 'File upload error (code: ' . $_FILES['photo']['error'] . ').';
+        } else {
+            // Limit file size (25 MB)
+            $maxSize = 25 * 1024 * 1024; // 25 MB in bytes
+            if ($_FILES['photo']['size'] > $maxSize) {
+                $errors[] = 'File is too large. Maximum 25MB allowed.';
+            } else {
+                // Validate MIME type using finfo
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, $_FILES['photo']['tmp_name']);
+                finfo_close($finfo);
+
+                $allowed = [
+                    'image/jpeg' => 'jpg',
+                    'image/png' => 'png',
+                    'image/gif' => 'gif',
+                    'image/webp' => 'webp',
+                    'image/avif' => 'avif'
+                ];
+
+                if (!array_key_exists($mime, $allowed)) {
+                    $errors[] = 'Invalid image type. Allowed: jpg, png, gif, webp, avif.';
+                } else {
+                    // Create uploads directory if needed
+                    $upload_dir = __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+                    if (!is_dir($upload_dir)) {
+                        mkdir($upload_dir, 0755, true);
+                    }
+
+                    // Generate a unique filename
+                    try {
+                        $ext = $allowed[$mime];
+                        $unique = time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+                    } catch (Exception $e) {
+                        // fallback if random_bytes not available
+                        $unique = time() . '_' . mt_rand(1000, 9999) . '.' . $ext;
+                    }
+
+                    $target_file = $upload_dir . $unique;
+
+                    if (!move_uploaded_file($_FILES['photo']['tmp_name'], $target_file)) {
+                        $errors[] = 'Failed to move uploaded file.';
+                    } else {
+                        // store only the filename (not the full path) in DB
+                        $photo = $unique;
+                    }
+                }
+            }
+        }
+    } else {
+        $errors[] = 'Image is required.';
+    }
+
+    // If no errors, insert into DB
+    if (empty($errors)) {
+        $sql = "INSERT INTO manga (title, genres, status, photo) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            $errors[] = 'Database error: ' . $conn->error;
+        } else {
+            $stmt->bind_param('ssss', $title, $genres_str, $status, $photo);
+            if ($stmt->execute()) {
+                // Success: redirect back to admin panel (with a small alert)
+                echo "<script>alert('Manga added successfully!');window.location.href='addChapter.php';</script>";
+                $stmt->close();
+                $conn->close();
+                exit;
+            } else {
+                $errors[] = 'Database execute error: ' . $stmt->error;
+                $stmt->close();
+            }
+        }
+    }
+
+    // If we reach here there were errors — show them to the user
+    if (!empty($errors)) {
+        $escaped = array_map(function($s){ return addslashes($s); }, $errors);
+        $msg = implode('\n', $escaped);
+        echo "<script>alert('Error:\n" . $msg . "');</script>";
+    }
+
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

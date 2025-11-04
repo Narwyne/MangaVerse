@@ -3,23 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>addChapter</title>
+    <title>adminPanel</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
     <script src="sidebarScript.js" defer></script>
 </head>
 <body>
-
-<style>
-.addChr{
-    display: grid;
-    grid-template-columns: 300px 300px 300px;
-}
-.addChapterContent{
-    background-color: red;
-}
-</style>
 
 <div class="aPanel">
 
@@ -37,11 +27,6 @@
     </div>
     <div class="panel aMain">
         <div class="mTop mmm">Add Chapter</div>
-        <div class="mMain addChr"> 
-            <div class="addChapterContent">1</div>
-            <div class="addChapterContent">2</div>
-            <div class="addChapterContent">3</div>
-        </div>
     </div>
      
 
@@ -49,7 +34,6 @@
                 <!-- Sidebar (Right Side) -->
                 <div class="sidebar" id="sidebar">
                     <a href="#">Profile</a>
-                    <a href="index.php">Home</a>
                     <a href="#">About Us</a>
                     <a href="#" class="logout">Log Out</a>
                 </div>
