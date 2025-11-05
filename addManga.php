@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="panel aMain">  
         <div class="mTop mmm">Add Manga</div>
-        <div class="mMain"> 
+        <div class="mMain addManga"> 
             <form class="mBox" enctype="multipart/form-data" method="POST">
                 <div class="mContent title">
                     <label for="title">Title :</label>

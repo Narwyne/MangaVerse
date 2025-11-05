@@ -10,6 +10,8 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 // Calculate the offset for the SQL query
 $offset = ($page - 1) * $limit;
 
+
+
 // ---------- FETCH MANGA DATA ----------
 // Fetch manga from the database with pagination
 $sql = "SELECT * FROM manga ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
@@ -43,7 +45,7 @@ $total_pages = ceil($total_manga / $limit);
     grid-template-columns: repeat(3, 1fr); /* Exactly 3 cards per row */
     grid-template-rows: repeat(2, auto);   /* 2 rows max */
     gap: 10px; /* Space between cards */
-    padding-top: 10px;
+    padding-top: 7px;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -137,7 +139,7 @@ $total_pages = ceil($total_manga / $limit);
 /* pagination */
 .pagination {
     text-align: center;
-    margin: 25px 0;
+    margin: 15px 0;
 }
 
 .pagination a {
@@ -166,6 +168,50 @@ $total_pages = ceil($total_manga / $limit);
     color: #666;
     pointer-events: none;
 }
+/* search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: rgb(248,248,255); /* dark gray */
+  border-radius: 10px;
+  overflow: hidden;
+  width: 1225px; /* adjust width as you like */
+  height: 40px;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: black;
+  padding: 0 10px;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-bar button {
+  background-color: #efbf04; /* yellow */
+  border: none;
+  width: 45px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #d4a703; /* darker yellow on hover */
+}
+
+.search-bar .material-symbols-outlined {
+  color: #4a4a4a;
+  font-size: 24px;
+}
+/* search_and_chapter_body adjustments */
     </style>
 </head>
 <body>
@@ -186,46 +232,51 @@ $total_pages = ceil($total_manga / $limit);
     </div>
     <div class="panel aMain">
         <div class="mTop mmm">Add Chapter</div>
-        <div class="manga-grid">
-            <?php
-            // Check if there are any manga in the database
-            if ($result->num_rows > 0) {
+            <div class="mMain">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <button><span class="material-symbols-outlined">search</span></button>
+                </div>
+                    <div class="manga-grid">
+                        <?php
+                        // Check if there are any manga in the database
+                        if ($result->num_rows > 0) {
 
-                // Loop through each manga and display it as a card
-                while($row = $result->fetch_assoc()) {
+                            // Loop through each manga and display it as a card
+                            while($row = $result->fetch_assoc()) {
 
-                    // Handle image path automatically
-                    $imagePath = $row['photo'];
+                                // Handle image path automatically
+                                $imagePath = $row['photo'];
 
-                    // If the database only has filename (e.g. "naruto.jpg"), add "uploads/"
-                    if (!str_starts_with($imagePath, 'uploads/')) {
-                        $imagePath = 'uploads/' . $imagePath;
-                    }
+                                // If the database only has filename (e.g. "naruto.jpg"), add "uploads/"
+                                if (!str_starts_with($imagePath, 'uploads/')) {
+                                    $imagePath = 'uploads/' . $imagePath;
+                                }
 
-                    // Display each manga card
-                    echo "
-                        <div class='manga-card'>
-                            <div class='manga-content'>
-                                <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
-                                <div class='manga-info'>
-                                    <h3>" . htmlspecialchars($row['title']) . "</h3>
-                                    <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
-                                    <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                                    <p><b>Chapters:</b> 0</p>
-                                </div>
-                            </div>
-                            <button class='add-chapter-btn' onclick=\"window.location.href='addChapter.php?id=" . $row['id'] . "'\">Add Chapter</button>
-                        </div>
-                    ";
-                }
+                                // Display each manga card
+                                echo "
+                                    <div class='manga-card'>
+                                        <div class='manga-content'>
+                                            <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
+                                            <div class='manga-info'>
+                                                <h3>" . htmlspecialchars($row['title']) . "</h3>
+                                                <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
+                                                <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
+                                                <p><b>Chapters:</b> 0</p>
+                                            </div>
+                                        </div>
+                                        <button class='add-chapter-btn' onclick=\"window.location.href='addChapter.php?id=" . $row['id'] . "'\">Add Chapter</button>
+                                    </div>
+                                ";
+                            }
 
-            } else {
-                // If no manga found
-                echo "<p style='text-align:center;'>No manga found.</p>";
-            }
-            ?>
-        </div>
-
+                        } else {
+                            // If no manga found
+                            echo "<p style='text-align:center;'>No manga found.</p>";
+                        }
+                        ?>
+                    </div>
+        </div>                
         <!-- ---------- PAGINATION LINKS ---------- -->
                 <!-- PAGINATION -->
             <div class="pagination">

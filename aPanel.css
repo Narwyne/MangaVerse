@@ -54,7 +54,7 @@ body{
 }
 .aSide{
     grid-column: 1/2;
-    height: 700px;
+    height: 830px;
     background-color: rgba(76, 76, 76, 1);
     justify-content: center;
 }
@@ -95,9 +95,11 @@ body{
     margin-top: 7px;
 }
 .mMain{
-    height: 650px;
+    height: 694px;
     background-color: rgba(19, 18, 18, 1);
     margin-top: 3px;
+}
+.addManga{
     display: flex;
     justify-content: center;
     align-items: center;
