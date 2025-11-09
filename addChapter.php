@@ -35,6 +35,7 @@ $total_pages = ceil($total_manga / $limit);
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
     <script src="sidebarScript.js" defer></script>
+    <script src="addingChapterScript.js" defer></script>
 
     <style>
 /* ===============================
@@ -129,6 +130,7 @@ $total_pages = ceil($total_manga / $limit);
     transition: background 0.2s ease;
     position: relative;
     bottom: 0;
+    margin-top: auto; /* ensure it stays at the bottom */
 }
 
 /* Button hover effect */
@@ -211,7 +213,72 @@ $total_pages = ceil($total_manga / $limit);
   color: #4a4a4a;
   font-size: 24px;
 }
-/* search_and_chapter_body adjustments */
+
+/* adding Chapter */
+
+/* Modal background overlay */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #1e1e1e;
+  padding: 25px;
+  border-radius: 10px;
+  width: 500px;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 221, 0, 0.3);
+  position: relative;
+}
+
+/* Close button */
+.close {
+  color: #ffcc00;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Inputs inside the modal */
+.modal-content input[type="text"],
+.modal-content input[type="file"] {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: white;
+}
+
+.modal-content button {
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+  color: black;
+  width: 100%;
+  font-size: 1.1em;
+}
+.modal-content button:hover {
+  background-color: #ffdb4d;
+}
     </style>
 </head>
 <body>
@@ -265,7 +332,8 @@ $total_pages = ceil($total_manga / $limit);
                                                 <p><b>Chapters:</b> 0</p>
                                             </div>
                                         </div>
-                                        <button class='add-chapter-btn' onclick=\"window.location.href='addChapter.php?id=" . $row['id'] . "'\">Add Chapter</button>
+                                        <button class='add-chapter-btn' onclick=\"openModal(" . (int)$row['id'] . ")\">Add Chapter</button>
+
                                     </div>
                                 ";
                             }
@@ -315,11 +383,59 @@ $total_pages = ceil($total_manga / $limit);
 <!-- Sidebar (Right Side) -->
 <div class="sidebar" id="sidebar">
     <a href="#">Profile</a>
+    <a href="index.php">Home</a>
     <a href="#">About Us</a>
     <a href="#" class="logout">Log Out</a>
 </div>
 
 <!-- Overlay -->
 <div class="overlay" id="overlay"></div>
+
+
+<!-- adding chapter -->
+<div id="chapterModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Add New Chapter</h2>
+    <form id="chapterForm" method="POST" enctype="multipart/form-data" action="uploadChapter.php">
+      <input type="hidden" name="manga_id" id="manga_id">
+      <label>Chapter Title:</label>
+      <input type="text" name="chapter_title" required>
+
+      <label>Upload Images:</label>
+      <input type="file" name="chapter_images[]" multiple accept="image/*" required>
+
+      <button type="submit">Upload Chapter</button>
+    </form>
+  </div>
+</div>
+
+<!-- Minimal JS to open/close the modal and set manga_id -->
+<script>
+  // get modal and close button
+  const chapterModal = document.getElementById('chapterModal');
+  const closeBtn = chapterModal ? chapterModal.querySelector('.close') : null;
+
+  // openModal sets the hidden manga_id input and shows modal
+  function openModal(mangaId) {
+    const idInput = document.getElementById('manga_id');
+    if (idInput) idInput.value = mangaId;
+    if (chapterModal) chapterModal.style.display = 'flex';
+  }
+
+  // close modal on close button click
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      chapterModal.style.display = 'none';
+    });
+  }
+
+  // close modal when clicking outside content
+  window.addEventListener('click', (e) => {
+    if (e.target === chapterModal) {
+      chapterModal.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
