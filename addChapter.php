@@ -34,252 +34,10 @@ $total_pages = ceil($total_manga / $limit);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
+    <link rel="stylesheet" href="css/aChapter.css">
     <script src="sidebarScript.js" defer></script>
     <script src="addingChapterScript.js" defer></script>
 
-    <style>
-/* ===============================
-   GRID CONTAINER FOR ALL CARDS
-   =============================== */
-.manga-grid {
-    display: grid; /* Arrange manga cards in a grid */
-    grid-template-columns: repeat(3, 1fr); /* Exactly 3 cards per row */
-    grid-template-rows: repeat(2, auto);   /* 2 rows max */
-    gap: 10px; /* Space between cards */
-    padding-top: 7px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-/* ===============================
-   MAIN CARD STYLING
-   =============================== */
-.manga-card {
-    background-color: #1e1e1e; /* Dark background */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 6px rgba(0,0,0,0.5); /* Subtle shadow */
-    overflow: hidden; /* Hide overflow */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
-    border: 1px solid #333; /* Border for definition */
-}
-
-/* Lift and glow on hover */
-.manga-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 12px rgba(255, 221, 0, 0.3);
-}
-
-/* ===============================
-   MANGA CONTENT SECTION (IMAGE + TEXT SIDE BY SIDE)
-   =============================== */
-.manga-content {
-    display: flex; /* Put image and text side by side */
-    align-items: flex-start; /* Align to top */
-    padding: 15px;
-    height: 210px;
-}
-
-/* ===============================
-   IMAGE STYLING
-   =============================== */
-.manga-content img {
-    width: 125px; /* Match your screenshot size */
-    height: 175px;
-    object-fit: cover; /* Keep aspect ratio and fill box */
-    border-radius: 4px; /* Slight round edges */
-    margin-right: 15px; /* Space between image and text */
-    margin-top: 10px;
-}
-
-/* ===============================
-   INFO TEXT SECTION
-   =============================== */
-.manga-info {
-    color: #fff;
-    flex: 1; /* Take remaining space */
-}
-
-/* Manga title */
-.manga-info h3 {
-    font-size: 1em;
-    color: #fff;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-/* Details (tags, status, etc.) */
-.manga-info p {
-    font-size: 0.6em;
-    color: #ccc;
-    margin: 4px 0;
-}
-
-/* ===============================
-   ADD CHAPTER BUTTON
-   =============================== */
-.add-chapter-btn {
-    background-color: #ffcc00; /* Bright yellow button */
-    color: #ffffffff; /* Black text */
-    font-weight: bold;
-    border: none;
-    padding: 15px 0;
-    cursor: pointer;
-    width: 100%; /* Full width */
-    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
-    font-size: 1.2em; /* Bigger font like in the picture */
-    transition: background 0.2s ease;
-    position: relative;
-    bottom: 0;
-    margin-top: auto; /* ensure it stays at the bottom */
-}
-
-/* Button hover effect */
-.add-chapter-btn:hover {
-    background-color: #ffdb4d;
-}
-
-/* pagination */
-.pagination {
-    text-align: center;
-    margin: 15px 0;
-}
-
-.pagination a {
-    display: inline-block;
-    background-color: #ffcc00;
-    color: #000;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.pagination a:hover {
-    background-color: #ffdb4d;
-}
-
-.pagination a.active {
-    background-color: #000;
-    color: #fff;
-}
-
-.pagination a.disabled {
-    background-color: #ccc;
-    color: #666;
-    pointer-events: none;
-}
-/* search bar */
-.search-bar {
-  display: flex;
-  align-items: center;
-  background-color: rgb(248,248,255); /* dark gray */
-  border-radius: 10px;
-  overflow: hidden;
-  width: 1225px; /* adjust width as you like */
-  height: 40px;
-  position: relative;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.search-bar input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: black;
-  padding: 0 10px;
-  outline: none;
-  font-size: 16px;
-}
-
-.search-bar button {
-  background-color: #efbf04; /* yellow */
-  border: none;
-  width: 45px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #d4a703; /* darker yellow on hover */
-}
-
-.search-bar .material-symbols-outlined {
-  color: #4a4a4a;
-  font-size: 24px;
-}
-
-/* adding Chapter */
-
-/* Modal background overlay */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-}
-
-/* Modal content box */
-.modal-content {
-  background-color: #1e1e1e;
-  padding: 25px;
-  border-radius: 10px;
-  width: 500px;
-  color: white;
-  box-shadow: 0 0 15px rgba(255, 221, 0, 0.3);
-  position: relative;
-}
-
-/* Close button */
-.close {
-  color: #ffcc00;
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* Inputs inside the modal */
-.modal-content input[type="text"],
-.modal-content input[type="file"] {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #2a2a2a;
-  color: white;
-}
-
-.modal-content button {
-  background-color: #ffcc00;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 6px;
-  color: black;
-  width: 100%;
-  font-size: 1.1em;
-}
-.modal-content button:hover {
-  background-color: #ffdb4d;
-}
-    </style>
 </head>
 <body>
 
@@ -397,8 +155,13 @@ $total_pages = ceil($total_manga / $limit);
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Add New Chapter</h2>
+
     <form id="chapterForm" method="POST" enctype="multipart/form-data" action="uploadChapter.php">
       <input type="hidden" name="manga_id" id="manga_id">
+
+      <label>Chapter Number:</label>
+      <input type="number" name="chapter_number" min="1" required><br><br>
+
       <label>Chapter Title:</label>
       <input type="text" name="chapter_title" required>
 
@@ -409,6 +172,7 @@ $total_pages = ceil($total_manga / $limit);
     </form>
   </div>
 </div>
+
 
 <!-- Minimal JS to open/close the modal and set manga_id -->
 <script>

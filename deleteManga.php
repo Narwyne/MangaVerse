@@ -10,15 +10,11 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 // Calculate the offset for the SQL query
 $offset = ($page - 1) * $limit;
 
-
-
 // ---------- FETCH MANGA DATA ----------
-// Fetch manga from the database with pagination
 $sql = "SELECT * FROM manga ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
 
 // ---------- TOTAL COUNT FOR PAGINATION ----------
-// Get total number of manga to calculate how many pages we need
 $total_sql = "SELECT COUNT(*) AS total FROM manga";
 $total_result = $conn->query($total_sql);
 $total_row = $total_result->fetch_assoc();
@@ -34,185 +30,9 @@ $total_pages = ceil($total_manga / $limit);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
+    <link rel="stylesheet" href="css/dManga.css">
     <script src="sidebarScript.js" defer></script>
 
-    <style>
-/* ===============================
-   GRID CONTAINER FOR ALL CARDS
-   =============================== */
-.manga-grid {
-    display: grid; /* Arrange manga cards in a grid */
-    grid-template-columns: repeat(3, 1fr); /* Exactly 3 cards per row */
-    grid-template-rows: repeat(2, auto);   /* 2 rows max */
-    gap: 10px; /* Space between cards */
-    padding-top: 7px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-/* ===============================
-   MAIN CARD STYLING
-   =============================== */
-.manga-card {
-    background-color: #1e1e1e; /* Dark background */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 6px rgba(0,0,0,0.5); /* Subtle shadow */
-    overflow: hidden; /* Hide overflow */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
-    border: 1px solid #333; /* Border for definition */
-}
-
-/* Lift and glow on hover */
-.manga-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 12px rgba(255, 221, 0, 0.3);
-}
-
-/* ===============================
-   MANGA CONTENT SECTION (IMAGE + TEXT SIDE BY SIDE)
-   =============================== */
-.manga-content {
-    display: flex; /* Put image and text side by side */
-    align-items: flex-start; /* Align to top */
-    padding: 15px;
-    height: 210px;
-}
-
-/* ===============================
-   IMAGE STYLING
-   =============================== */
-.manga-content img {
-    width: 125px; /* Match your screenshot size */
-    height: 175px;
-    object-fit: cover; /* Keep aspect ratio and fill box */
-    border-radius: 4px; /* Slight round edges */
-    margin-right: 15px; /* Space between image and text */
-    margin-top: 10px;
-}
-
-/* ===============================
-   INFO TEXT SECTION
-   =============================== */
-.manga-info {
-    color: #fff;
-    flex: 1; /* Take remaining space */
-}
-
-/* Manga title */
-.manga-info h3 {
-    font-size: 1em;
-    color: #fff;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-/* Details (tags, status, etc.) */
-.manga-info p {
-    font-size: 0.6em;
-    color: #ccc;
-    margin: 4px 0;
-}
-
-/* ===============================
-   ADD CHAPTER BUTTON
-   =============================== */
-.add-chapter-btn {
-    background-color: #ffcc00; /* Bright yellow button */
-    color: #ffffffff; /* Black text */
-    font-weight: bold;
-    border: none;
-    padding: 15px 0;
-    cursor: pointer;
-    width: 100%; /* Full width */
-    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
-    font-size: 1.2em; /* Bigger font like in the picture */
-    transition: background 0.2s ease;
-    position: relative;
-    bottom: 0;
-}
-
-/* Button hover effect */
-.add-chapter-btn:hover {
-    background-color: #ffdb4d;
-}
-
-/* pagination */
-.pagination {
-    text-align: center;
-    margin: 15px 0;
-}
-
-.pagination a {
-    display: inline-block;
-    background-color: #ffcc00;
-    color: #000;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.pagination a:hover {
-    background-color: #ffdb4d;
-}
-
-.pagination a.active {
-    background-color: #000;
-    color: #fff;
-}
-
-.pagination a.disabled {
-    background-color: #ccc;
-    color: #666;
-    pointer-events: none;
-}
-/* search bar */
-.search-bar {
-  display: flex;
-  align-items: center;
-  background-color: rgb(248,248,255); /* dark gray */
-  border-radius: 10px;
-  overflow: hidden;
-  width: 1225px; /* adjust width as you like */
-  height: 40px;
-  position: relative;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.search-bar input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: black;
-  padding: 0 10px;
-  outline: none;
-  font-size: 16px;
-}
-
-.search-bar button {
-  background-color: #efbf04; /* yellow */
-  border: none;
-  width: 45px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #d4a703; /* darker yellow on hover */
-}
-
-.search-bar .material-symbols-outlined {
-  color: #4a4a4a;
-  font-size: 24px;
-}
-/* search_and_chapter_body adjustments */
-    </style>
 </head>
 <body>
 
@@ -265,7 +85,7 @@ $total_pages = ceil($total_manga / $limit);
                                                 <p><b>Chapters:</b> 0</p>
                                             </div>
                                         </div>
-                                        <button class='add-chapter-btn' onclick=\"window.location.href='addChapter.php?id=" . $row['id'] . "'\">Delete Manga</button>
+                                        <button class='add-chapter-btn' onclick=\"confirmDelete(" . $row['id'] . ")\">Delete Manga</button>
                                     </div>
                                 ";
                             }
@@ -278,29 +98,24 @@ $total_pages = ceil($total_manga / $limit);
                     </div>
         </div>                
         <!-- ---------- PAGINATION LINKS ---------- -->
-                <!-- PAGINATION -->
             <div class="pagination">
                     <?php
-                    // Get total number of manga
                     $result = $conn->query("SELECT COUNT(*) AS total FROM manga");
                     $row = $result->fetch_assoc();
                     $total_records = $row['total'];
                     $total_pages = ceil($total_records / $limit);
 
-                    // Previous button
                     if ($page > 1) {
                         echo '<a href="?page=' . ($page - 1) . '">&laquo; Prev</a>';
                     } else {
                         echo '<a class="disabled">&laquo; Prev</a>';
                     }
 
-                    // Page numbers
                     for ($i = 1; $i <= $total_pages; $i++) {
                         $active = ($i == $page) ? 'active' : '';
                         echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
                     }
 
-                    // Next button
                     if ($page < $total_pages) {
                         echo '<a href="?page=' . ($page + 1) . '">Next &raquo;</a>';
                     } else {
@@ -322,5 +137,14 @@ $total_pages = ceil($total_manga / $limit);
 
 <!-- Overlay -->
 <div class="overlay" id="overlay"></div>
+
+<script>
+// Confirm delete and redirect to action page
+function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this manga and all its chapters? This cannot be undone.")) {
+        window.location.href = "deleteMangaAction.php?id=" + id;
+    }
+}
+</script>
 </body>
 </html>

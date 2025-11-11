@@ -1,0 +1,80 @@
+.mBox {
+    background-color: rgba(111, 110, 110, 1);
+    padding: 30px 50px;
+    border-radius: 5px;
+    color: white;
+    font-family: 'Istok Web', sans-serif;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.mContent label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+.mContent input[type="text"], .mContent textarea {
+    width: 60%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+}
+.mContent textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* ======= File Upload ======= */
+.mContent input[type="file"] { display: none; }
+.upload-label {
+    background-color: rgba(239, 191, 4, 1);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.upload-label:hover { background-color: rgba(255, 210, 40, 1); }
+#preview { display: block; margin-top: 10px; max-height: 150px; border-radius: 5px; }
+
+/* ======= Checkboxes ======= */
+.mContent input[type="checkbox"], 
+.mContent input[type="radio"] {
+    margin-left: 10px;
+    transform: scale(1.2);
+}
+.cbFont { margin-right: 20px; font-size: 16px; }
+
+/* ======= Submit Button ======= */
+.submitBtn { text-align: center; }
+.submitBtn button {
+    background-color: rgba(239, 191, 4, 1);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 400px;
+}
+.submitBtn button:hover { background-color: rgba(255, 210, 40, 1); }
+
+.genre-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px 20px;
+    margin-top: 10px;
+}
+.genre-container div {
+    display: flex;
+    align-items: center;
+}
+.genre-container label {
+    font-size: 16px;
+    margin-left: 5px;
+}
+.scriptionD{
+    margin-bottom: 20px;;
+}

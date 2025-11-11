@@ -7,6 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $genres = isset($_POST['genre']) && is_array($_POST['genre']) ? $_POST['genre'] : [];
     $genres_str = implode(', ', array_map('trim', $genres));
     $status = isset($_POST['status']) ? trim($_POST['status']) : '';
+    $description = isset($_POST['description']) ? trim($_POST['description']) : '';
+    $hiatus = isset($_POST['hiatus']) ? trim($_POST['hiatus']) : 'No'; // Default to No
 
     $errors = [];
 
@@ -15,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($status === '') {
         $errors[] = 'Status is required.';
+    }
+    if ($description === '') {
+        $errors[] = 'Description is required.';
     }
 
     // Handle image upload with validation
@@ -76,12 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // If no errors, insert into DB
     if (empty($errors)) {
-        $sql = "INSERT INTO manga (title, genres, status, photo) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO manga (title, genres, status, description, hiatus, photo) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
             $errors[] = 'Database error: ' . $conn->error;
         } else {
-            $stmt->bind_param('ssss', $title, $genres_str, $status, $photo);
+            $stmt->bind_param('ssssss', $title, $genres_str, $status, $description, $hiatus, $photo);
             if ($stmt->execute()) {
                 // Success: redirect back to admin panel (with a small alert)
                 echo "<script>alert('Manga added successfully!');window.location.href='addChapter.php';</script>";
@@ -115,123 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
+    <link rel="stylesheet" href="css/aManga.css">
     <script src="sidebarScript.js" defer></script>
 </head>
 <body>
-<style>
-/* ======= Base Panel ======= */
-/* .aMain{
-    background-color: rgba(239, 191, 4, 1);
-    height: 50px;
-    font-family: 'Istok Web', sans-serif;
-    font-weight: bold;
-    color: white;
-    font-size: 30px;
-} */
-
-
-/* ======= Main Box Styling ======= */
-
-
-.mBox {
-    background-color: rgba(111, 110, 110, 1);
-    padding: 30px 50px;
-    border-radius: 5px;
-    color: white;
-    font-family: 'Istok Web', sans-serif;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.mContent label {
-    font-size: 18px;
-    margin-right: 10px;
-}
-
-.mContent input[type="text"] {
-    width: 60%;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
-
-/* ======= File Upload ======= */
-.mContent input[type="file"] {
-    display: none;
-}
-.upload-label {
-    background-color: rgba(239, 191, 4, 1);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.upload-label:hover {
-    background-color: rgba(255, 210, 40, 1);
-}
-
-#preview {
-    display: block;
-    margin-top: 10px;
-    max-height: 150px;
-    border-radius: 5px;
-}
-
-/* ======= Checkboxes ======= */
-.mContent input[type="checkbox"], 
-.mContent input[type="radio"] {
-    margin-left: 10px;
-    transform: scale(1.2);
-}
-
-.cbFont {
-    margin-right: 20px;
-    font-size: 16px;
-}
-
-/* ======= Submit Button ======= */
-.submitBtn {
-    text-align: center;
-}
-.submitBtn button {
-    background-color: rgba(239, 191, 4, 1);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 400px;
-}
-.submitBtn button:hover {
-    background-color: rgba(255, 210, 40, 1);
-}
-.genre-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 10px 20px; /* row gap | column gap */
-    margin-top: 10px;
-}
-
-.genre-container div {
-    display: flex;
-    align-items: center;
-}
-
-.genre-container label {
-    font-size: 16px;
-    margin-left: 5px;
-}
-
-</style>
 
 <div class="aPanel">
-
     <div class="panel aTop">
         <div id="mangaverse">Welcome to Manga<span id="verse">Verse</span> admin panel</div>
         <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
@@ -261,7 +155,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img id="preview" src="#" alt="Preview" style="display:none;">
                 </div>
 
-                    <!-- Checkboxes -->
+                <!-- Description -->
+                <div class="mContent">
+                    <label id="scriptionD" for="description">Description :</label>
+                    <textarea id="description" name="description" placeholder="Enter manga description..." required></textarea>
+                </div>
+
+                <!-- Checkboxes -->
                 <div class="mContent">
                     <label>Genre :</label>
                     <div class="genre-container">
@@ -285,6 +185,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      <label>Status : </label>
                     <input type="radio" id="ongoing" name="status" value="Ongoing"> <label class="cbFont" for="ongoing">Ongoing</label>
                     <input type="radio" id="completed" name="status" value="Completed"> <label class="cbFont" for="completed">Completed</label>
+                </div>
+
+                <!-- Hiatus -->
+                <div class="mContent">
+                    <label>Hiatus :</label>
+                    <input type="radio" id="hiatus_yes" name="hiatus" value="Yes"> <label class="cbFont" for="hiatus_yes">Yes</label>
+                    <input type="radio" id="hiatus_no" name="hiatus" value="No" checked> <label class="cbFont" for="hiatus_no">No</label>
                 </div>
 
                 <div class="mContent submitBtn">

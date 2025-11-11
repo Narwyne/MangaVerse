@@ -1,44 +1,37 @@
 <?php
 include 'db.php';
 
-// Check if form submitted
+// Handle only POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Get form data
     $manga_id = $_POST['manga_id'];
+    $chapter_number = $_POST['chapter_number'];
     $chapter_title = $_POST['chapter_title'];
 
-    // Folder for this chapter
-    $folder_name = "chapter_" . time();
-    $upload_dir = "chapters/" . $folder_name;
-
-    // Create the folder if not exists
-    if (!file_exists($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
+    // Create a folder for chapter images
+    // Example: chapters/manga_1/chapter_5/
+    $baseDir = "chapters/manga_" . $manga_id . "/chapter_" . $chapter_number;
+    if (!file_exists($baseDir)) {
+        mkdir($baseDir, 0777, true);
     }
 
-    // Upload each image
+    // Upload images
     foreach ($_FILES['chapter_images']['tmp_name'] as $key => $tmp_name) {
-        $file_name = basename($_FILES['chapter_images']['name'][$key]);
-        $target_file = $upload_dir . "/" . $file_name;
-
-        move_uploaded_file($tmp_name, $target_file);
+        $fileName = basename($_FILES['chapter_images']['name'][$key]);
+        $targetPath = $baseDir . "/" . $fileName;
+        move_uploaded_file($tmp_name, $targetPath);
     }
 
-    // Count how many chapters this manga already has
-    $result = $conn->query("SELECT COUNT(*) AS total FROM chapters WHERE manga_id = $manga_id");
-    $row = $result->fetch_assoc();
-    $chapter_number = $row['total'] + 1;
-
-    // Insert chapter record
-    $sql = "INSERT INTO chapters (manga_id, chapter_number, chapter_title, images_folder) 
-            VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iiss", $manga_id, $chapter_number, $chapter_title, $upload_dir);
+    // Insert chapter record into database
+    $stmt = $conn->prepare("INSERT INTO chapters (manga_id, chapter_number, chapter_title, images_folder) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiss", $manga_id, $chapter_number, $chapter_title, $baseDir);
     $stmt->execute();
+    $stmt->close();
 
-    // Redirect back to addChapter page
-    header("Location: addChapter.php?success=1");
-    exit();
-} else {
-    echo "Invalid request.";
+    echo "<script>
+        alert('✅ Chapter $chapter_number has been added successfully!');
+        window.location.href = 'addChapter.php';
+    </script>";
 }
 ?>
