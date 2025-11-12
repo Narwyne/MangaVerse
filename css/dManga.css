@@ -61,10 +61,9 @@
 
 /* Manga title */
 .manga-info h3 {
-    font-size: 1em;
-    color: #fff;
-    margin-bottom: 10px;
-    text-align: left;
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 /* Details (tags, status, etc.) */

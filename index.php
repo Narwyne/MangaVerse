@@ -1,6 +1,27 @@
+<?php
+include 'db.php';
+
+// ---------- PAGINATION SETUP ----------
+$limit = 15; // 3x2 layout = 6 cards per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// ---------- FETCH MANGA DATA ----------
+$sql = "SELECT * FROM manga ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
+$result = $conn->query($sql);
+
+// ---------- TOTAL COUNT FOR PAGINATION ----------
+$total_sql = "SELECT COUNT(*) AS total FROM manga";
+$total_result = $conn->query($total_sql);
+$total_row = $total_result->fetch_assoc();
+$total_manga = $total_row['total'];
+$total_pages = ceil($total_manga / $limit);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="home.css">
@@ -12,6 +33,60 @@
 
 </head>
 <body>
+
+<style>
+  
+  .manga-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, auto);
+  gap: 5px;
+  padding-top: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.manga-card {
+  background-color: #1e1e1e;
+  border-radius: 5px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #333;
+}
+.manga-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 12px rgba(255, 221, 0, 0.3);
+}
+.manga-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  height: 155px;
+}
+.manga-content img {
+  width: 105px;
+  height: 155px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px;
+
+}
+.manga-info {
+  color: #fff;
+  flex: 1;
+}
+.manga-info h3 {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.manga-info p {
+  font-size: 1em;
+  color: #ccc;
+  margin: 4px 0;
+}
+</style>
 
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
@@ -49,32 +124,41 @@
     <div class="item recommendationsTop">Recommendations</div>
 
     <div class="item item3 latestMain">
-      <div class="content">
-        <div class="picture"> </div>
-        <div class="title"></div>
-        <div class="tags"></div>
-        <div class="status"></div>
-      </div>
-      <div class="content">C2</div>
-      <div class="content">C3</div>
-      <div class="content">C4</div>
-      <div class="content">C5</div>
-      <div class="content">C6</div>
-      <div class="content">C7</div>
-      <div class="content">C8</div>
-      <div class="content">C9</div>
-      <div class="content">C10</div>
-      <div class="content">C11</div>
-      <div class="content">C12</div>
-      <div class="content">C13</div>
-      <div class="content">C14</div>
-      <div class="content">C15</div>
+        <div class="manga-grid">
+          <?php
+          if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+              $imagePath = $row['photo'];
+              if (!str_starts_with($imagePath, 'uploads/')) {
+                $imagePath = 'uploads/' . $imagePath;
+              }
+
+              // Safely escape quotes and newlines for JavaScript
+              $safeTitle = addslashes($row['title']);
+              $safeDescription = addslashes($row['description'] ?? '');
+              $safeGenres = addslashes($row['genres']);
+              $safeStatus = addslashes($row['status']);
+
+              echo "
+                <div class='manga-card'>
+                  <div class='manga-content'>
+                    <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
+                    <div class='manga-info'>
+                      <h3>" . htmlspecialchars($row['title']) . "</h3>
+                      <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
+                      <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
+                      <p><b>Chapters:</b> 0</p>
+                    </div>
+                  </div>
+                </div>
+              ";
+            }
+          } else {
+            echo "<p style='text-align:center;'>No manga found.</p>";
+          }
+          ?>
+        </div>
     </div>
 
-    <div class="item item4">4</div>
-    <div class="item item5">5</div>
-    <div class="item item6">6</div>
-  </div>
-
-</body>
+</body> 
 </html>
