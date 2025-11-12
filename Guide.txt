@@ -1,0 +1,1 @@
+open anay an an database tapos inport an mangaverse.sql

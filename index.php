@@ -1,8 +1,16 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+  header("Location: login.php");
+  exit();
+}
+
 include 'db.php';
 
 // ---------- PAGINATION SETUP ----------
-$limit = 15; // 3x2 layout = 6 cards per page
+$limit = 15; // 3x5 layout = 15 cards per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -92,8 +100,10 @@ $total_pages = ceil($total_manga / $limit);
   <div class="sidebar" id="sidebar">
     <a href="#">Profile</a>
     <a href="#">About Us</a>
-    <a href="adminPanel.php">Admin Panel</a>
-    <a href="#" class="logout">Log Out</a>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+      <a href="adminPanel.php">Admin Panel</a>
+    <?php endif; ?>
+    <a href="logout.php" class="logout">Log Out</a>
   </div>
 
   <!-- Overlay -->

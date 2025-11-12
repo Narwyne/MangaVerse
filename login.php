@@ -1,3 +1,43 @@
+<?php
+session_start();
+
+$host = 'localhost';
+$db = 'mangaverse';
+$user = 'root';
+$pass = '';
+
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $conn->real_escape_string($_POST['username']);
+  $password = $_POST['password'];
+
+  $sql = "SELECT * FROM users WHERE username='$username'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    if (password_verify($password, $row['password'])) {
+      $_SESSION['username'] = $row['username'];
+      $_SESSION['role'] = $row['role'];
+
+      if ($row['role'] === 'admin') {
+        header("Location: adminPanel.php");
+      } else {
+        header("Location: index.php");
+      }
+      exit();
+    } else {
+      echo "<script>alert('Incorrect password');</script>";
+    }
+  } else {
+    echo "<script>alert('User not found');</script>";
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,8 +90,9 @@
     .login-header {
       text-align: center;
       font-weight: 600;
-      font-size: 18px;
-      margin-bottom: 25px;
+      font-size: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     form {
@@ -105,7 +146,7 @@
     .login-btn {
       width: 100%;
       background-color: #efbf04;
-      color: #000;
+      color: #ffffffff;
       font-weight: 600;
       border: none;
       padding: 10px;
