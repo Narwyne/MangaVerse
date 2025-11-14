@@ -85,7 +85,7 @@ $total_pages = ceil($total_manga / $limit);
   flex: 1;
 }
 .manga-info h3 {
-  font-size: 1.3em;
+  font-size: 1.2em;
   margin-bottom: 10px;
   text-align: left;
 }
