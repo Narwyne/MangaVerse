@@ -61,6 +61,8 @@ $total_pages = ceil($total_manga / $limit);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid #333;
+  font-family: 'Istok Web', sans-serif;
+  /* font-weight: bold; */
 }
 .manga-card:hover {
   transform: translateY(-5px);
@@ -69,14 +71,16 @@ $total_pages = ceil($total_manga / $limit);
 .manga-content {
   display: flex;
   align-items: flex-start;
-  padding: 10px;
-  height: 155px;
+  padding: 5px;
+  height: 165px;
 }
 .manga-content img {
   width: 105px;
   height: 155px;
   object-fit: cover;
-  border-radius: 4px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 5px;
   margin-right: 15px;
 
 }
@@ -85,14 +89,49 @@ $total_pages = ceil($total_manga / $limit);
   flex: 1;
 }
 .manga-info h3 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 10px;
   text-align: left;
 }
 .manga-info p {
   font-size: 1em;
   color: #ccc;
-  margin: 4px 0;
+  margin: 2px 0;
+}
+
+/* pagination */
+.pagination {
+    text-align: center;
+    /* margin: 5px 0; */
+      font-family: 'Istok Web', sans-serif;
+}
+
+.pagination a {
+    display: inline-block;
+    background-color: #ffcc00;
+    color: #000;
+    padding: 6px 11px;
+    margin: 0 5px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+    margin-top: 5px;
+}
+
+.pagination a:hover {
+    background-color: #ffdb4d;
+}
+
+.pagination a.active {
+    background-color: #000;
+    color: #fff;
+}
+
+.pagination a.disabled {
+    background-color: #ccc;
+    color: #666;
+    pointer-events: none;
 }
 </style>
 
@@ -168,7 +207,43 @@ $total_pages = ceil($total_manga / $limit);
           }
           ?>
         </div>
-    </div>
+  </div>
+        <div class="item item4">
+           
+        </div>
+        <div class="item item5">
+                          <!-- PAGINATION -->
+            <div class="pagination">
+                    <?php
+                    // Get total number of manga
+                    $result = $conn->query("SELECT COUNT(*) AS total FROM manga");
+                    $row = $result->fetch_assoc();
+                    $total_records = $row['total'];
+                    $total_pages = ceil($total_records / $limit);
+
+                    // Previous button
+                    if ($page > 1) {
+                        echo '<a href="?page=' . ($page - 1) . '">&laquo; Prev</a>';
+                    } else {
+                        echo '<a class="disabled">&laquo; Prev</a>';
+                    }
+
+                    // Page numbers
+                    for ($i = 1; $i <= $total_pages; $i++) {
+                        $active = ($i == $page) ? 'active' : '';
+                        echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
+                    }
+
+                    // Next button
+                    if ($page < $total_pages) {
+                        echo '<a href="?page=' . ($page + 1) . '">Next &raquo;</a>';
+                    } else {
+                        echo '<a class="disabled">Next &raquo;</a>';
+                    }
+                    ?>
+            </div>
+        </div>
+        <div class="item item6"> </div>
 
 </body> 
 </html>

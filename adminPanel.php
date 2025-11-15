@@ -46,7 +46,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
                     <a href="#">Profile</a>
                     <a href="index.php">Home</a>
                     <a href="#">About Us</a>
-                    <a href="#" class="logout">Log Out</a>
+                    <a href="logout.php" class="logout">Log Out</a>
                 </div>
 
                 <!-- Overlay -->

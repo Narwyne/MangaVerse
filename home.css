@@ -104,12 +104,15 @@ body{
     margin-left: 5px;
     margin-right: 5px;
     align-content: center;
-    
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+    color: whitesmoke;
+    padding-left: 10px;
 }
 .item3{
     /* latest chapter Body */
     grid-column: 1 / 6;
-    height: 1100px;
+    height: 916px;
     background-color: rgba(64, 64, 64, 1);
     margin-left: 5px;
     margin-right: 5px;
@@ -126,7 +129,7 @@ body{
 .item4{
     /* top10 body */
     grid-column: 6 / 7;
-    height: 1100px;
+    height: 916px;
     margin-left: 5px;
     background-color: rgba(64, 64, 64, 1);
     margin-right: 5px;
@@ -139,6 +142,10 @@ body{
     margin-left: 5px;
     margin-right: 5px;
     align-content: center;
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+    color: whitesmoke;
+    padding-left: 5px;
 }
 
 .item6{

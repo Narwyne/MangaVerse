@@ -48,7 +48,7 @@ body {
 </style>
 
     <div class="surudlan">
-        <div class="surat">Bro is no him!</div>
+        <div class="surat">Bro is not him!</div>
         <div class="pindutan"><button onclick="window.location.href='index.php';">Home</button></div>
     </div>
 
