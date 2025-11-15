@@ -44,6 +44,7 @@ body {
     border: none;
     font-size: 16px;
     color: white;
+    cursor: pointer;
 }
 </style>
 

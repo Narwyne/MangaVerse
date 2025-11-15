@@ -202,8 +202,6 @@ body{
 }
 
 
-
-/* Animation: slides to the next pair of images */
 @keyframes slideDouble {
   0% { transform: translateX(0%); }
   45% { transform: translateX(0%); }

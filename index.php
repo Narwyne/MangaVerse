@@ -75,11 +75,11 @@ $total_pages = ceil($total_manga / $limit);
   height: 165px;
 }
 .manga-content img {
-  width: 105px;
-  height: 155px;
+  width: 115px;
+  height: 165px;
   object-fit: cover;
-  margin-top: 5px;
-  margin-left: 5px;
+  /* margin-top: 5px;
+  margin-left: 5px; */
   border-radius: 5px;
   margin-right: 15px;
 
@@ -189,17 +189,19 @@ $total_pages = ceil($total_manga / $limit);
               $safeStatus = addslashes($row['status']);
 
               echo "
-                <div class='manga-card'>
-                  <div class='manga-content'>
-                    <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
-                    <div class='manga-info'>
-                      <h3>" . htmlspecialchars($row['title']) . "</h3>
-                      <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
-                      <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                      <p><b>Chapters:</b> 0</p>
+                <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                  <div class='manga-card'>
+                    <div class='manga-content'>
+                      <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
+                      <div class='manga-info'>
+                        <h3>" . htmlspecialchars($row['title']) . "</h3>
+                        <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
+                        <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
+                        <p><b>Chapters:</b> 0</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ";
             }
           } else {
