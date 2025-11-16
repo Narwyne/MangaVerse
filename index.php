@@ -150,7 +150,7 @@ $total_pages = ceil($total_manga / $limit);
 
   <div class="container">
     <div class="item header">
-      <div id="logo"></div>
+      <a href="index.php"><div id="logo"></div></a>
       <div class="search-bar">
         <input type="text" placeholder="Search...">
         <button><span class="material-symbols-outlined">search</span></button>

@@ -67,7 +67,8 @@ $manga = $result->fetch_assoc();
 .Manga-contents {
     grid-column: 1 / 7;
     background-color: rgba(41, 41, 41, 1);
-    height: 600px;
+    height: 650px;
+    max-height: max-content;
 }
 .Genres-Status-top {
     font-family: 'Istok Web', sans-serif;
@@ -131,6 +132,7 @@ $manga = $result->fetch_assoc();
     width: 1050px;
     background-color: rgba(64, 64, 64, 1);
     margin-left: 320px;
+    margin-bottom: 15px;
 }
 </style>
 
@@ -149,7 +151,7 @@ $manga = $result->fetch_assoc();
 
   <div class="container">
     <div class="item header">
-      <div id="logo"></div>
+      <a href="index.php"><div id="logo"></div></a>
       <div class="search-bar">
         <input type="text" placeholder="Search...">
         <button><span class="material-symbols-outlined">search</span></button>

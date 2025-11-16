@@ -1,6 +1,10 @@
 <?php
 session_start();
 include 'db.php';
+if (!isset($_SESSION['username'])) {
+  header("Location: login.php");
+  exit();
+}
 
 if (!isset($_GET['id'])) {
   echo "No chapter ID provided.";
@@ -18,6 +22,16 @@ if ($result->num_rows === 0) {
 
 $chapter = $result->fetch_assoc();
 
+// Find previous chapter
+$prev_sql = "SELECT id FROM chapters WHERE manga_id = {$chapter['manga_id']} AND chapter_number < {$chapter['chapter_number']} ORDER BY chapter_number DESC LIMIT 1";
+$prev_result = $conn->query($prev_sql);
+$prev_chapter = $prev_result->num_rows ? $prev_result->fetch_assoc()['id'] : null;
+
+// Find next chapter
+$next_sql = "SELECT id FROM chapters WHERE manga_id = {$chapter['manga_id']} AND chapter_number > {$chapter['chapter_number']} ORDER BY chapter_number ASC LIMIT 1";
+$next_result = $conn->query($next_sql);
+$next_chapter = $next_result->num_rows ? $next_result->fetch_assoc()['id'] : null;
+
 // ✅ Load images from folder
 $folder = 'chapters/manga_' . $chapter['manga_id'] . '/chapter_' . $chapter['chapter_number'];
 $images = glob($folder . '/*.{jpg,jpeg,png,webp}', GLOB_BRACE);
@@ -33,10 +47,15 @@ usort($images, function($a, $b) {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chapter <?= $chapter['chapter_number'] ?> - <?= htmlspecialchars($chapter['chapter_title']) ?></title>
+  <meta charset="UTF-8">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <script src="sidebarScript.js" defer></script>
+  <title>  Chapter <?= $chapter['chapter_number'] ?>  <?= htmlspecialchars($chapter['chapter_title']) ?></title>
   <style>
     body {
-      background-color: #121212;
+      background-color: rgba(41, 41, 41, 1);
       color: #fff;
       font-family: 'Istok Web', sans-serif;
       text-align: center;
@@ -48,10 +67,75 @@ usort($images, function($a, $b) {
       display: block;
       box-shadow: 0 0 10px rgba(255,255,255,0.1);
     }
+    .chapter-nav {
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .nav-link {
+      display: inline-block;
+      margin: 0px;
+      padding: 10px 20px;
+      background-color: rgba(19, 18, 18, 1);
+      color: #ffffffff;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: rgba(239, 191, 4, 1);
+      color: #ffffff;
+    }
+    .nChap {
+      text-align: center;
+      background-color: rgba(19, 18, 18, 1);
+      padding: 10px 20px;
+      width: 10px;
+      display: inline-block;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <h1>Chapter <?= $chapter['chapter_number'] ?>: <?= htmlspecialchars($chapter['chapter_title']) ?></h1>
+
+  <!-- Sidebar (Right Side) -->
+<div class="sidebar" id="sidebar">
+  <a href="#">Profile</a>
+  <a href="#">About Us</a>
+  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+    <a href="adminPanel.php">Admin Panel</a>
+  <?php endif; ?>
+  <a href="logout.php" class="logout">Log Out</a>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<div class="item header">
+  <a href="index.php"><div id="logo"></div></a>
+  <div class="search-bar">
+    <input type="text" placeholder="Search...">
+    <button><span class="material-symbols-outlined">search</span></button>
+  </div>
+  <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
+</div>
+
+  <h1>Chapter <?= $chapter['chapter_number'] ?> <?= htmlspecialchars($chapter['chapter_title']) ?></h1>
+  <div class="chapter-nav">
+  <?php if ($prev_chapter): ?>
+    <a href="chapter.php?id=<?= $prev_chapter ?>" class="nav-link prev">&laquo; Prev Chapter</a>
+  <?php endif; ?>
+
+  <p class="nChap"><?= $chapter['chapter_number'] ?></p>
+
+  <?php if ($next_chapter): ?>
+    <a href="chapter.php?id=<?= $next_chapter ?>" class="nav-link next">Next Chapter &raquo;</a>
+  <?php endif; ?>
+</div>
   <?php
   if ($images) {
     foreach ($images as $img) {
@@ -61,5 +145,16 @@ usort($images, function($a, $b) {
     echo "<p>No images found for this chapter.</p>";
   }
   ?>
+<div class="chapter-nav">
+  <?php if ($prev_chapter): ?>
+    <a href="chapter.php?id=<?= $prev_chapter ?>" class="nav-link prev">&laquo; Prev Chapter</a>
+  <?php endif; ?>
+
+  <p class="nChap"><?= $chapter['chapter_number'] ?></p>
+
+  <?php if ($next_chapter): ?>
+    <a href="chapter.php?id=<?= $next_chapter ?>" class="nav-link next">Next Chapter &raquo;</a>
+  <?php endif; ?>
+</div>
 </body>
 </html>

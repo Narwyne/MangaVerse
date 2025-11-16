@@ -171,7 +171,7 @@ $total_pages = ceil($total_manga / $limit);
       <input type="number" name="chapter_number" min="1" required><br><br>
 
       <label>Chapter Title:</label>
-      <input type="text" name="chapter_title" required>
+      <input type="text" name="chapter_title">
 
       <label>Upload Images:</label>
       <input type="file" name="chapter_images[]" multiple accept="image/*" required>
