@@ -172,7 +172,7 @@ $manga = $result->fetch_assoc();
             <p><strong>Status:</strong> <?php echo htmlspecialchars($manga['status']); ?></p>
         </div>
         
-        <div class="discription-top">Discription</div>
+        <div class="discription-top">Description</div>
         <div class="discription-main">
             <p><?php echo nl2br(htmlspecialchars($manga['description'])); ?></p>
         </div>

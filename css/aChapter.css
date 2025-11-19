@@ -238,7 +238,7 @@
   cursor: pointer;
   font-weight: bold;
   border-radius: 6px;
-  color: black;
+  color: rgb(255, 255, 255);
   width: 100%;
   font-size: 1.1em;
 }
