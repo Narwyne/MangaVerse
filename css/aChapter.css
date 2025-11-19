@@ -175,8 +175,13 @@
 
 /* adding Chapter */
 
+.chapterModal{
+  font-family: 'Istok Web', sans-serif;
+}
+
 /* Modal background overlay */
 .modal {
+  font-family: 'Istok Web', sans-serif;
   display: none; /* Hidden by default */
   position: fixed;
   z-index: 1000;
@@ -188,6 +193,7 @@
   background-color: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
+
 }
 
 /* Modal content box */
@@ -199,6 +205,7 @@
   color: white;
   box-shadow: 0 0 15px rgba(255, 221, 0, 0.3);
   position: relative;
+
 }
 
 /* Close button */

@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
@@ -63,42 +64,42 @@ $total_pages = ceil($total_manga / $limit);
 
       <div class="manga-grid">
         <?php
-        if ($result->num_rows > 0) {
-          while($row = $result->fetch_assoc()) {
-            $imagePath = $row['photo'];
-            if (!str_starts_with($imagePath, 'uploads/')) {
-              $imagePath = 'uploads/' . $imagePath;
-            }
+          if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+              $imagePath = $row['photo'];
+              if (!str_starts_with($imagePath, 'uploads/')) {
+                $imagePath = 'uploads/' . $imagePath;
+              }
 
-            // Safely escape quotes and newlines for JavaScript
-            $safeTitle = addslashes($row['title']);
-            $safeDescription = addslashes($row['description'] ?? '');
-            $safeGenres = addslashes($row['genres']);
-            $safeStatus = addslashes($row['status']);
-
-            echo "
-              <div class='manga-card'>
-                <div class='manga-content'>
-                  <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
-                  <div class='manga-info'>
-                    <h3>" . htmlspecialchars($row['title']) . "</h3>
-                    <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
-                    <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                    <p><b>Chapters:</b> 0</p>
+              echo "
+                <div class='manga-card'>
+                  <div class='manga-content'>
+                    <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
+                    <div class='manga-info'>
+                      <h3>" . htmlspecialchars($row['title']) . "</h3>
+                      <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
+                      <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
+                      <p><b>Chapters:</b> 0</p>
+                    </div>
                   </div>
+
+                  <!-- Edit Manga Button with data attributes -->
+                  <button class='edit-manga-btn'
+                    data-id='" . (int)$row['id'] . "'
+                    data-title='" . htmlspecialchars($row['title'], ENT_QUOTES) . "'
+                    data-description='" . htmlspecialchars($row['description'] ?? '', ENT_QUOTES) . "'
+                    data-genres='" . htmlspecialchars($row['genres'], ENT_QUOTES) . "'
+                    data-status='" . htmlspecialchars($row['status'], ENT_QUOTES) . "'
+                    onclick='openEdit(this)'>
+                    Edit Manga
+                  </button>
                 </div>
-                <!-- Edit Manga Button -->
-                <button class='edit-manga-btn' 
-                  onclick='openEdit(" . $row['id'] . ", `" . $safeTitle . "`, `" . $safeDescription . "`, `" . $safeGenres . "`, `" . $safeStatus . "`)'>
-                  Edit Manga
-                </button>
-              </div>
-            ";
+              ";
+            }
+          } else {
+            echo "<p style='text-align:center;'>No manga found.</p>";
           }
-        } else {
-          echo "<p style='text-align:center;'>No manga found.</p>";
-        }
-        ?>
+          ?>
       </div>
     </div>
 
@@ -149,7 +150,7 @@ $total_pages = ceil($total_manga / $limit);
       <label>Title:</label>
       <input type="text" id="editTitle" name="title" required>
 
-      <!-- ✅ Manga Description -->
+      <!-- Manga Description -->
       <label>Description:</label>
       <textarea id="editDescription" name="description" rows="4" required></textarea>
 
@@ -176,25 +177,29 @@ $total_pages = ceil($total_manga / $limit);
       <label>Change Cover Image:</label>
       <input type="file" name="photo">
 
-      <!-- Submit -->
       <button type="submit">Save Changes</button>
     </form>
   </div>
 </div>
 
 <script>
-// ---------- OPEN EDIT MODAL ----------
-function openEdit(id, title, description, genres, status) {
+function openEdit(button) {
+  const id = button.getAttribute('data-id');
+  const title = button.getAttribute('data-title');
+  const description = button.getAttribute('data-description');
+  const genres = button.getAttribute('data-genres');
+  const status = button.getAttribute('data-status');
+
   document.getElementById("editOverlay").style.display = "flex";
   document.getElementById("editId").value = id;
   document.getElementById("editTitle").value = title;
-  document.getElementById("editDescription").value = description; // ✅ FIXED: now shows description
+  document.getElementById("editDescription").value = description;
   document.getElementById("editStatus").value = status;
 
   // Uncheck all checkboxes first
   document.querySelectorAll('input[name="genres[]"]').forEach(cb => cb.checked = false);
 
-  // Re-check genres that match the DB value
+  // Re-check genres that match DB
   let genreList = genres.split(",").map(g => g.trim().toLowerCase());
   document.querySelectorAll('input[name="genres[]"]').forEach(cb => {
     if (genreList.includes(cb.value.toLowerCase())) {
@@ -203,7 +208,6 @@ function openEdit(id, title, description, genres, status) {
   });
 }
 
-// ---------- CLOSE EDIT MODAL ----------
 function closeEdit() {
   document.getElementById("editOverlay").style.display = "none";
 }

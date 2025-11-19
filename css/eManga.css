@@ -144,6 +144,7 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+  
 }
 .popup {
   background: #1e1e1e;
@@ -154,10 +155,12 @@
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   position: relative;
   text-align: left;
+  font-family: 'Istok Web', sans-serif;
 }
 .popup h2 {
   margin-bottom: 15px;
   text-align: center;
+
 }
 .popup label {
   display: block;
