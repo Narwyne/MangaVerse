@@ -9,6 +9,14 @@ if (!isset($_SESSION['username'])) {
 
 include 'db.php';
 
+// ---------- FETCH RECOMMENDATIONS ----------
+$rec_sql = "SELECT * FROM manga ORDER BY RAND() LIMIT 8"; // 6 random recommendations
+$rec_result = $conn->query($rec_sql);
+
+// $rec_sql = "SELECT * FROM manga WHERE id IN (2,5,7)"; // specific recommendations
+// $rec_result = $conn->query($rec_sql);
+
+
 // ---------- PAGINATION SETUP ----------
 $limit = 15; // 3x5 layout = 15 cards per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -133,6 +141,45 @@ $total_pages = ceil($total_manga / $limit);
     color: #666;
     pointer-events: none;
 }
+
+.recommendations-grid {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(2, 0fr); /* 3 per row */
+  gap: 8px;
+  background-color: rgba(64, 64, 64, 1);
+  padding-top: 10px;
+  width: 210px;
+  left: 9px;
+}
+
+.recommend-card {
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 6px;
+  text-align: center;
+  padding: 7px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 205px;
+}
+
+.recommend-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 221, 0, 0.4);
+}
+
+.recommend-card img {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.recommend-title {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #ffffffff; /* yellow accent */
+  font-family: 'Istok Web', sans-serif;
+}
 </style>
 
   <!-- Sidebar (Right Side) -->
@@ -193,7 +240,7 @@ $total_pages = ceil($total_manga / $limit);
               echo "
                 <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                   <div class='manga-card'>
-                    <div class='manga-content'>
+                    <div class='manga-content '>
                       <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
                       <div class='manga-info'>
                         <h3>" . htmlspecialchars($row['title']) . "</h3>
@@ -212,9 +259,33 @@ $total_pages = ceil($total_manga / $limit);
           ?>
         </div>
   </div>
-        <div class="item item4">
-           
+      <div class="item item4">
+        <div class="recommendations-grid">
+          <?php
+          if ($rec_result->num_rows > 0) {
+            while($row = $rec_result->fetch_assoc()) {
+              $imagePath = $row['photo'];
+              if (!str_starts_with($imagePath, 'uploads/')) {
+                $imagePath = 'uploads/' . $imagePath;
+              }
+
+              echo "
+                <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                  <div class='recommend-card'>
+                    <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
+                    <h4 class='recommend-title'>" . htmlspecialchars($row['title']) . "</h4>
+                  </div>
+                </a>
+              ";
+            }
+          } else {
+            echo "<p style='text-align:center;'>No recommendations available.</p>";
+          }
+          ?>
         </div>
+</div>
+
+
         <div class="item item5">
                           <!-- PAGINATION -->
             <div class="pagination">
