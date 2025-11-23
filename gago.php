@@ -81,6 +81,7 @@ $manga = $result->fetch_assoc();
     background-color: rgba(239, 191, 4, 1);;
     margin-top: 15px;
     margin-left: 320px;
+    border-radius: 8px 8px 0px 0px ;
 }
 .Genres-Status-body {
     font-family: 'Istok Web', sans-serif;
@@ -90,6 +91,7 @@ $manga = $result->fetch_assoc();
     width: 1050px;
     background-color: rgba(64, 64, 64, 1);
     margin-left: 320px;
+    border-radius: 0px 0px 8px 8px ;
 }
 .discription-top {
     font-family: 'Istok Web', sans-serif;
@@ -102,6 +104,7 @@ $manga = $result->fetch_assoc();
     background-color: rgba(239, 191, 4, 1);;
     margin-top: 15px;
     margin-left: 320px;
+    border-radius: 8px 8px 0px 0px ;
 }
 .discription-main {
     font-family: 'Istok Web', sans-serif;
@@ -111,6 +114,7 @@ $manga = $result->fetch_assoc();
     width: 1050px;
     background-color: rgba(64, 64, 64, 1);
     margin-left: 320px;
+    border-radius: 0px 0px 8px 8px ;
 }
 .chapter-top {
     font-family: 'Istok Web', sans-serif;
@@ -123,6 +127,7 @@ $manga = $result->fetch_assoc();
     background-color: rgba(239, 191, 4, 1);;
     margin-top: 15px;
     margin-left: 320px;
+    border-radius: 8px 8px 0px 0px ;
 }
 .chapter-main {
     font-family: 'Istok Web', sans-serif;
@@ -133,6 +138,7 @@ $manga = $result->fetch_assoc();
     background-color: rgba(64, 64, 64, 1);
     margin-left: 320px;
     margin-bottom: 15px;
+    border-radius: 0px 0px 8px 8px ;
 }
 </style>
 

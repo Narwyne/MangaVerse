@@ -40,7 +40,7 @@ body{
     background-color: rgba(41, 41, 41, 1);
 }
 .searchTop{
-    width: 100%;
+    width: auto;
     height: 65px;
     background-color: rgba(239, 191, 4, 1);
     display: flex;
@@ -62,9 +62,9 @@ body{
   margin-left: 5px;
   margin-right: 5px;
 }
-.searchMain {
-    /* padding: 15px; */
-}
+/* .searchMain {
+    padding: 15px;
+} */
 .manga-card {
   background-color: #1e1e1e;
   border-radius: 6px;
@@ -182,10 +182,10 @@ body{
 
 <div class="item header">
     <a href="index.php"><div id="logo"></div></a>
-    <form method="GET" action="search.php" class="search-bar">
-        <input type="text" name="search" placeholder="Search...">
-        <button type="submit"><span class="material-symbols-outlined">search</span></button>
-    </form>
+      <form method="GET" action="search.php" class="search-bar">
+          <input type="text" name="search" placeholder="Search...">
+          <button type="submit"><span class="material-symbols-outlined">search</span></button>
+      </form>
     <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
 </div>
 

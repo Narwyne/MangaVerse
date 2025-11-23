@@ -41,7 +41,19 @@ usort($images, function($a, $b) {
   return (int)preg_replace('/\D/', '', basename($a)) <=> (int)preg_replace('/\D/', '', basename($b));
 });
 
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$limit = 8;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
+$whereClause = '';
+if (!empty($search)) {
+  $whereClause = "WHERE title LIKE '%$search%' OR genres LIKE '%$search%' OR description LIKE '%$search%'";
+}
+
+$sql = "SELECT * FROM manga $whereClause ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
+$result = $conn->query($sql);
+?>
 ?>
 
 <!DOCTYPE html>
@@ -54,49 +66,49 @@ usort($images, function($a, $b) {
     <script src="sidebarScript.js" defer></script>
   <title>  Chapter <?= $chapter['chapter_number'] ?>  <?= htmlspecialchars($chapter['chapter_title']) ?></title>
   <style>
-    body {
-      background-color: rgba(41, 41, 41, 1);
-      color: #fff;
-      font-family: 'Istok Web', sans-serif;
-      text-align: center;
-    }
-    .chapter-image {
-      width: 100%;
-      max-width: 900px;
-      margin:  auto;
-      display: block;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-    }
-    .chapter-nav {
-      margin: 40px auto;
-      text-align: center;
-    }
+body {
+  background-color: rgba(41, 41, 41, 1);
+  color: #fff;
+  font-family: 'Istok Web', sans-serif;
+  text-align: center;
+}
+.chapter-image {
+  width: 100%;
+  max-width: 900px;
+  margin:  auto;
+  display: block;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+.chapter-nav {
+  margin: 40px auto;
+  text-align: center;
+}
 
-    .nav-link {
-      display: inline-block;
-      margin: 0px;
-      padding: 10px 20px;
-      background-color: rgba(19, 18, 18, 1);
-      color: #ffffffff;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
+.nav-link {
+  display: inline-block;
+  margin: 0px;
+  padding: 10px 20px;
+  background-color: rgba(19, 18, 18, 1);
+  color: #ffffffff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
 
-    .nav-link:hover {
-      background-color: rgba(239, 191, 4, 1);
-      color: #ffffff;
-    }
-    .nChap {
-      text-align: center;
-      background-color: rgba(19, 18, 18, 1);
-      padding: 10px 20px;
-      width: 10px;
-      display: inline-block;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
+.nav-link:hover {
+  background-color: rgba(239, 191, 4, 1);
+  color: #ffffff;
+}
+.nChap {
+  text-align: center;
+  background-color: rgba(19, 18, 18, 1);
+  padding: 10px 20px;
+  width: 10px;
+  display: inline-block;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
     }
   </style>
 </head>
@@ -117,10 +129,10 @@ usort($images, function($a, $b) {
 
 <div class="item header">
   <a href="index.php"><div id="logo"></div></a>
-  <div class="search-bar">
-    <input type="text" placeholder="Search...">
-    <button><span class="material-symbols-outlined">search</span></button>
-  </div>
+    <form method="GET" action="search.php" class="search-bar">
+        <input type="text" name="search" placeholder="Search...">
+        <button type="submit"><span class="material-symbols-outlined">search</span></button>
+    </form>
   <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
 </div>
 

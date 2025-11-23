@@ -18,12 +18,25 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 // Calculate the offset for the SQL query
 $offset = ($page - 1) * $limit;
 
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$limit = 6;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
+$whereClause = '';
+if (!empty($search)) {
+  $whereClause = "WHERE title LIKE '%$search%' OR genres LIKE '%$search%' OR description LIKE '%$search%'";
+}
 
-// ---------- FETCH MANGA DATA ----------
-// Fetch manga from the database with pagination
-$sql = "SELECT * FROM manga ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
+$sql = "SELECT * FROM manga $whereClause ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
+
+$total_sql = "SELECT COUNT(*) AS total FROM manga $whereClause";
+$total_result = $conn->query($total_sql);
+$total_row = $total_result->fetch_assoc();
+$total_manga = $total_row['total'];
+$total_pages = ceil($total_manga / $limit);
+
 
 // ---------- TOTAL COUNT FOR PAGINATION ----------
 // Get total number of manga to calculate how many pages we need
@@ -66,11 +79,13 @@ $total_pages = ceil($total_manga / $limit);
     <div class="panel aMain">
         <div class="mTop mmm">Add Chapter</div>
             <div class="mMain">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <button><span class="material-symbols-outlined">search</span></button>
-                </div>
-                    <div class="manga-grid">
+
+                      <form method="GET" action="addChapter.php" class="search-bar">
+                        <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                        <button type="submit"><span class="material-symbols-outlined ssearch">search</span></button>
+                      </form>
+
+                        <div class="manga-grid">
                         <?php
                         // Check if there are any manga in the database
                         if ($result->num_rows > 0) {
@@ -112,36 +127,37 @@ $total_pages = ceil($total_manga / $limit);
                     </div>
         </div>                
         <!-- ---------- PAGINATION LINKS ---------- -->
-                <!-- PAGINATION -->
-            <div class="pagination">
-                    <?php
-                    // Get total number of manga
-                    $result = $conn->query("SELECT COUNT(*) AS total FROM manga");
-                    $row = $result->fetch_assoc();
-                    $total_records = $row['total'];
-                    $total_pages = ceil($total_records / $limit);
+    <div class="pagination">
+        <?php
+            // Count total filtered results
+            $count_sql = "SELECT COUNT(*) AS total FROM manga $whereClause";
+            $count_result = $conn->query($count_sql);
+            $count_row = $count_result->fetch_assoc();
+            $total_records = $count_row['total'];
+            $total_pages = ceil($total_records / $limit);
 
-                    // Previous button
-                    if ($page > 1) {
-                        echo '<a href="?page=' . ($page - 1) . '">&laquo; Prev</a>';
-                    } else {
-                        echo '<a class="disabled">&laquo; Prev</a>';
-                    }
+            // Preserve search term in pagination links
+            $searchParam = !empty($search) ? '&search=' . urlencode($search) : '';
 
-                    // Page numbers
-                    for ($i = 1; $i <= $total_pages; $i++) {
-                        $active = ($i == $page) ? 'active' : '';
-                        echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
-                    }
+            if ($page > 1) {
+            echo '<a href="?page=' . ($page - 1) . $searchParam . '">&laquo; Prev</a>';
+            } else {
+            echo '<a class="disabled">&laquo; Prev</a>';
+            }
 
-                    // Next button
-                    if ($page < $total_pages) {
-                        echo '<a href="?page=' . ($page + 1) . '">Next &raquo;</a>';
-                    } else {
-                        echo '<a class="disabled">Next &raquo;</a>';
-                    }
-                    ?>
-            </div>
+            for ($i = 1; $i <= $total_pages; $i++) {
+            $active = ($i == $page) ? 'active' : '';
+            echo '<a href="?page=' . $i . $searchParam . '" class="' . $active . '">' . $i . '</a>';
+            }
+
+            if ($page < $total_pages) {
+            echo '<a href="?page=' . ($page + 1) . $searchParam . '">Next &raquo;</a>';
+            } else {
+            echo '<a class="disabled">Next &raquo;</a>';
+            }
+        ?>
+    </div>
+</div>
 
     </div>
 
@@ -171,7 +187,7 @@ $total_pages = ceil($total_manga / $limit);
       <input type="number" name="chapter_number" min="1" required><br><br>
 
       <label>Chapter Title:</label>
-      <input type="text" name="chapter_title">
+      <input type="text" name="chapter_title" required>
 
       <label>Upload Images:</label>
       <input type="file" name="chapter_images[]" multiple accept="image/*" required>

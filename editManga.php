@@ -14,9 +14,26 @@ $limit = 6; // 3x2 layout = 6 cards per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// ---------- FETCH MANGA DATA ----------
-$sql = "SELECT * FROM manga ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$limit = 6;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$whereClause = '';
+if (!empty($search)) {
+  $whereClause = "WHERE title LIKE '%$search%' OR genres LIKE '%$search%' OR description LIKE '%$search%'";
+}
+
+// Fetch filtered manga
+$sql = "SELECT * FROM manga $whereClause ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
+
+// Count filtered results
+$total_sql = "SELECT COUNT(*) AS total FROM manga $whereClause";
+$total_result = $conn->query($total_sql);
+$total_row = $total_result->fetch_assoc();
+$total_manga = $total_row['total'];
+$total_pages = ceil($total_manga / $limit);
 
 // ---------- TOTAL COUNT FOR PAGINATION ----------
 $total_sql = "SELECT COUNT(*) AS total FROM manga";
@@ -57,10 +74,10 @@ $total_pages = ceil($total_manga / $limit);
   <div class="panel aMain">
     <div class="mTop mmm">Edit Manga</div>
     <div class="mMain">
-      <div class="search-bar">
-        <input type="text" placeholder="Search...">
-        <button><span class="material-symbols-outlined">search</span></button>
-      </div>
+        <form method="GET" action="editManga.php" class="search-bar">
+          <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+          <button type="submit"><span class="material-symbols-outlined ssearch">search</span></button>
+        </form>
 
       <div class="manga-grid">
         <?php
@@ -104,26 +121,38 @@ $total_pages = ceil($total_manga / $limit);
     </div>
 
     <!-- ---------- PAGINATION LINKS ---------- -->
+                <!-- PAGINATION -->
     <div class="pagination">
-      <?php
-      if ($page > 1) {
-        echo '<a href="?page=' . ($page - 1) . '">&laquo; Prev</a>';
-      } else {
-        echo '<a class="disabled">&laquo; Prev</a>';
-      }
+        <?php
+            // Count total filtered results
+            $count_sql = "SELECT COUNT(*) AS total FROM manga $whereClause";
+            $count_result = $conn->query($count_sql);
+            $count_row = $count_result->fetch_assoc();
+            $total_records = $count_row['total'];
+            $total_pages = ceil($total_records / $limit);
 
-      for ($i = 1; $i <= $total_pages; $i++) {
-        $active = ($i == $page) ? 'active' : '';
-        echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
-      }
+            // Preserve search term in pagination links
+            $searchParam = !empty($search) ? '&search=' . urlencode($search) : '';
 
-      if ($page < $total_pages) {
-        echo '<a href="?page=' . ($page + 1) . '">Next &raquo;</a>';
-      } else {
-        echo '<a class="disabled">Next &raquo;</a>';
-      }
-      ?>
+            if ($page > 1) {
+            echo '<a href="?page=' . ($page - 1) . $searchParam . '">&laquo; Prev</a>';
+            } else {
+            echo '<a class="disabled">&laquo; Prev</a>';
+            }
+
+            for ($i = 1; $i <= $total_pages; $i++) {
+            $active = ($i == $page) ? 'active' : '';
+            echo '<a href="?page=' . $i . $searchParam . '" class="' . $active . '">' . $i . '</a>';
+            }
+
+            if ($page < $total_pages) {
+            echo '<a href="?page=' . ($page + 1) . $searchParam . '">Next &raquo;</a>';
+            } else {
+            echo '<a class="disabled">Next &raquo;</a>';
+            }
+        ?>
     </div>
+</div>
   </div>
 </div>
 
@@ -170,7 +199,7 @@ $total_pages = ceil($total_manga / $limit);
       <select id="editStatus" name="status" required>
         <option value='Ongoing'>Ongoing</option>
         <option value='Completed'>Completed</option>
-        <option value='Hiatus'>Hiatus</option>
+        <!-- <option value='Hiatus'>Hiatus</option> -->
       </select>
 
       <!-- Manga Cover -->

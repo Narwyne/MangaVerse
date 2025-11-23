@@ -194,11 +194,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Hiatus -->
-                <div class="mContent">
+                <!-- <div class="mContent">
                     <label>Hiatus :</label>
                     <input type="radio" id="hiatus_yes" name="hiatus" value="Yes"> <label class="cbFont" for="hiatus_yes">Yes</label>
                     <input type="radio" id="hiatus_no" name="hiatus" value="No" checked> <label class="cbFont" for="hiatus_no">No</label>
-                </div>
+                </div> -->
 
                 <div class="mContent submitBtn">
                     <button type="submit">Add Manga</button>

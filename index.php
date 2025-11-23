@@ -56,7 +56,7 @@ $total_pages = ceil($total_manga / $limit);
 
 .manga-card {
   background-color: #1e1e1e;
-  border-radius: 5px;
+  border-radius:9px;
   box-shadow: 0 0 6px rgba(0,0,0,0.5);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -137,13 +137,15 @@ $total_pages = ceil($total_manga / $limit);
 
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
-    <a href="#">Profile</a>
-    <a href="#">About Us</a>
+    <a href="#" class="admin"> <span class="material-symbols-outlined">account_circle</span> Profile</a>
+    <a href="#" class="admin" > <span class="material-symbols-outlined">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <a href="adminPanel.php">Admin Panel</a>
+      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined">admin_panel_settings</span> Admin Panel</a>
     <?php endif; ?>
-    <a href="logout.php" class="logout">Log Out</a>
+    <a href="logout.php" class="logout"> <span class="material-symbols-outlined">logout</span> <span class="lgout">Log Out</span></a>
   </div>
+
+
 
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
