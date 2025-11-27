@@ -22,6 +22,12 @@ if ($result->num_rows === 0) {
 
 $chapter = $result->fetch_assoc();
 
+// Get manga info for this chapter
+$manga_sql = "SELECT title FROM manga WHERE id = {$chapter['manga_id']} LIMIT 1";
+$manga_result = $conn->query($manga_sql);
+$manga = $manga_result->num_rows ? $manga_result->fetch_assoc() : null;
+
+
 // Find previous chapter
 $prev_sql = "SELECT id FROM chapters WHERE manga_id = {$chapter['manga_id']} AND chapter_number < {$chapter['chapter_number']} ORDER BY chapter_number DESC LIMIT 1";
 $prev_result = $conn->query($prev_sql);
@@ -54,7 +60,6 @@ if (!empty($search)) {
 $sql = "SELECT * FROM manga $whereClause ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
 ?>
-?>
 
 <!DOCTYPE html>
 <html>
@@ -63,8 +68,8 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <script src="sidebarScript.js" defer></script>
-  <title>  Chapter <?= $chapter['chapter_number'] ?>  <?= htmlspecialchars($chapter['chapter_title']) ?></title>
+    <script src="Scripts/sidebarScript.js" defer></script>
+  <title> <?= htmlspecialchars($manga['title']) ?>  Chapter <?= $chapter['chapter_number'] ?>  <?= htmlspecialchars($chapter['chapter_title']) ?></title>
   <style>
 body {
   background-color: rgba(41, 41, 41, 1);
@@ -80,7 +85,7 @@ body {
   box-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 .chapter-nav {
-  margin: 40px auto;
+  margin: 0px 0px 40px 0px;
   text-align: center;
 }
 
@@ -95,7 +100,9 @@ body {
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
-
+.back{
+  margin-top: 20px;
+}
 .nav-link:hover {
   background-color: rgba(239, 191, 4, 1);
   color: #ffffff;
@@ -135,8 +142,12 @@ body {
     </form>
   <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
 </div>
-
+ 
   <h1>Chapter <?= $chapter['chapter_number'] ?> <?= htmlspecialchars($chapter['chapter_title']) ?></h1>
+  <a href="gago.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <?= htmlspecialchars($manga['title']) ?>
+  </a>
+
   <div class="chapter-nav">
   <?php if ($prev_chapter): ?>
     <a href="chapter.php?id=<?= $prev_chapter ?>" class="nav-link prev">&laquo; Prev Chapter</a>
@@ -157,6 +168,11 @@ body {
     echo "<p>No images found for this chapter.</p>";
   }
   ?>
+  
+  <a href="gago.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <?= htmlspecialchars($manga['title']) ?>
+  </a>
+  
 <div class="chapter-nav">
   <?php if ($prev_chapter): ?>
     <a href="chapter.php?id=<?= $prev_chapter ?>" class="nav-link prev">&laquo; Prev Chapter</a>

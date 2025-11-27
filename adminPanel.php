@@ -16,7 +16,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
-    <script src="sidebarScript.js" defer></script>
+    <script src="Scripts/sidebarScript.js" defer></script>
 </head>
 <body>
 

@@ -52,7 +52,7 @@ $total_pages = ceil($total_manga / $limit);
   <link rel="stylesheet" href="sidebar.css">
   <link rel="stylesheet" href="aPanel.css">
   <link rel="stylesheet" href="css/eManga.css">
-  <script src="sidebarScript.js" defer></script>
+  <script src="Scripts/sidebarScript.js" defer></script>
 </head>
 <body>
 

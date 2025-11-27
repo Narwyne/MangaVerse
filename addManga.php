@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
     <link rel="stylesheet" href="css/aManga.css">
-    <script src="sidebarScript.js" defer></script>
+    <script src="Scripts/sidebarScript.js" defer></script>
 </head>
 <body>
 

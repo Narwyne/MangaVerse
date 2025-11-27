@@ -44,8 +44,8 @@ $total_pages = ceil($total_manga / $limit);
   <link rel="stylesheet" href="sidebar.css">
   <title>Home</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <script src="caroselScript.js" defer></script>
-  <script src="sidebarScript.js" defer></script>
+  <script src="Scripts/caroselScript.js" defer></script>
+  <script src="Scripts/sidebarScript.js" defer></script>
 
 </head>
 <body>
@@ -184,12 +184,12 @@ $total_pages = ceil($total_manga / $limit);
 
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
-    <a href="#" class="admin"> <span class="material-symbols-outlined">account_circle</span> Profile</a>
-    <a href="#" class="admin" > <span class="material-symbols-outlined">info</span> About Us</a>
+    <a href="#" class="admin"> <span class="material-symbols-outlined"></span> Profile</a>
+    <a href="#" class="admin" > <span class="material-symbols-outlined"></span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined">admin_panel_settings</span> Admin Panel</a>
+      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined"></span> Admin Panel</a>
     <?php endif; ?>
-    <a href="logout.php" class="logout"> <span class="material-symbols-outlined">logout</span> <span class="lgout">Log Out</span></a>
+    <a href="logout.php" class="logout"> <span class="material-symbols-outlined"></span> <span class="lgout">Log Out</span></a>
   </div>
 
 

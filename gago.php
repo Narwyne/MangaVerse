@@ -26,7 +26,7 @@ $manga = $result->fetch_assoc();
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-      <script src="sidebarScript.js" defer></script>
+      <script src="Scripts/sidebarScript.js" defer></script>
 </head>
 <body>
 

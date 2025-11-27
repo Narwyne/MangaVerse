@@ -45,7 +45,9 @@ $total_result = $conn->query($total_sql);
 $total_row = $total_result->fetch_assoc();
 $total_manga = $total_row['total'];
 $total_pages = ceil($total_manga / $limit);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +58,7 @@ $total_pages = ceil($total_manga / $limit);
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="aPanel.css">
     <link rel="stylesheet" href="css/aChapter.css">
-    <script src="sidebarScript.js" defer></script>
+    <script src="Scripts/sidebarScript.js" defer></script>
     <script src="addingChapterScript.js" defer></script>
 
 </head>
