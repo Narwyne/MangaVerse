@@ -49,8 +49,8 @@ $total_pages = ceil($total_manga / $limit);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Manga</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="sidebar.css">
-  <link rel="stylesheet" href="aPanel.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/aPanel.css">
   <link rel="stylesheet" href="css/eManga.css">
   <script src="Scripts/sidebarScript.js" defer></script>
 </head>

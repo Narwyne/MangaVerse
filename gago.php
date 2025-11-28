@@ -23,8 +23,8 @@ $manga = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($manga['title']); ?></title>
-    <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
       <script src="Scripts/sidebarScript.js" defer></script>
 </head>

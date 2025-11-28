@@ -16,7 +16,6 @@ $rec_result = $conn->query($rec_sql);
 // $rec_sql = "SELECT * FROM manga WHERE id IN (2,5,7)"; // specific recommendations
 // $rec_result = $conn->query($rec_sql);
 
-
 // ---------- PAGINATION SETUP ----------
 $limit = 15; // 3x5 layout = 15 cards per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -32,6 +31,27 @@ $total_result = $conn->query($total_sql);
 $total_row = $total_result->fetch_assoc();
 $total_manga = $total_row['total'];
 $total_pages = ceil($total_manga / $limit);
+
+// ---------- FETCH MANGA DATA WITH CHAPTER COUNT ----------
+$sql = "
+  SELECT m.*, 
+         (SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id) AS chapter_count
+  FROM manga m
+  ORDER BY date_added DESC
+  LIMIT $limit OFFSET $offset
+";
+$result = $conn->query($sql);
+
+// ---------- FETCH MANGA DATA WITH CHAPTER COUNT AND LAST UPDATE ----------
+$sql = "
+  SELECT m.*, 
+         (SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id) AS chapter_count,
+         COALESCE((SELECT MAX(c.date_added) FROM chapters c WHERE c.manga_id = m.id), m.date_added) AS last_update
+  FROM manga m
+  ORDER BY last_update DESC
+  LIMIT $limit OFFSET $offset
+";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +60,8 @@ $total_pages = ceil($total_manga / $limit);
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="sidebar.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/sidebar.css">
   <title>Home</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <script src="Scripts/caroselScript.js" defer></script>
@@ -184,12 +204,12 @@ $total_pages = ceil($total_manga / $limit);
 
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
-    <a href="#" class="admin"> <span class="material-symbols-outlined"></span> Profile</a>
-    <a href="#" class="admin" > <span class="material-symbols-outlined"></span> About Us</a>
+    <a href="#" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
+    <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined"></span> Admin Panel</a>
+      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined Sicons">admin_panel_settings</span> Admin Panel</a>
     <?php endif; ?>
-    <a href="logout.php" class="logout"> <span class="material-symbols-outlined"></span> <span class="lgout">Log Out</span></a>
+    <a href="logout.php" class="logout"> <span class="material-symbols-outlined Sicons">logout</span><span class="lgout">Log Out</span></a>
   </div>
 
 
@@ -246,7 +266,7 @@ $total_pages = ceil($total_manga / $limit);
                         <h3>" . htmlspecialchars($row['title']) . "</h3>
                         <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
                         <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                        <p><b>Chapters:</b> 0</p>
+                        <p><b>Chapters:</b> " . $row['chapter_count'] . "</p>
                       </div>
                     </div>
                   </div>

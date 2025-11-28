@@ -55,8 +55,8 @@ $total_pages = ceil($total_manga / $limit);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>addChapter</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="aPanel.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/aPanel.css">
     <link rel="stylesheet" href="css/aChapter.css">
     <script src="Scripts/sidebarScript.js" defer></script>
     <script src="addingChapterScript.js" defer></script>
@@ -190,7 +190,7 @@ $total_pages = ceil($total_manga / $limit);
       <input type="number" name="chapter_number" min="1" required><br><br>
 
       <label>Chapter Title:</label>
-      <input type="text" name="chapter_title" required>
+      <input type="text" name="chapter_title" >
 
       <label>Upload Images:</label>
       <input type="file" name="chapter_images[]" multiple accept="image/*" required>
