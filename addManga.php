@@ -141,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button onclick="window.location.href='adminPanel.php';">Admin Panel</button> <br>
         <button disabled="disabled">Add Manga</button> <br>
         <button onclick="window.location.href='addChapter.php';">Add Chapter</button> <br>
+        <button onclick="window.location.href='deleteChapter.php';">Delete Chapter</button> <br>
         <button onclick="window.location.href='editManga.php';">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>

@@ -75,6 +75,7 @@ $total_pages = ceil($total_manga / $limit);
         <button onclick="window.location.href='adminPanel.php';">Admin Panel</button> <br>
         <button onclick="window.location.href='addManga.php';">Add Manga</button> <br>
         <button disabled="disabled">Add Chapter</button> <br>
+        <button onclick="window.location.href='deleteChapter.php';">Delete Chapter</button> <br>
         <button onclick="window.location.href='editManga.php';">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>

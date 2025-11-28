@@ -31,6 +31,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
         <button disabled="disabled">Admin Panel</button> <br>
         <button onclick="window.location.href='addManga.php';">Add Manga</button> <br>
         <button onclick="window.location.href='addChapter.php';">Add Chapter</button> <br>
+        <button onclick="window.location.href='deleteChapter.php';">Delete Chapter</button> <br>
         <button onclick="window.location.href='editManga.php';">Edit Manga</button> <br>
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>

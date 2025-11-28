@@ -158,10 +158,10 @@ $manga = $result->fetch_assoc();
   <div class="container">
     <div class="item header">
       <a href="index.php"><div id="logo"></div></a>
-      <div class="search-bar">
-        <input type="text" placeholder="Search...">
-        <button><span class="material-symbols-outlined">search</span></button>
-    </div>
+        <form method="GET" action="search.php" class="search-bar">
+          <input type="text" name="search" placeholder="Search...">
+          <button type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
       <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
   </div>
 
