@@ -204,15 +204,13 @@ $result = $conn->query($sql);
 
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
-    <a href="#" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
+    <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
     <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
       <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined Sicons">admin_panel_settings</span> Admin Panel</a>
     <?php endif; ?>
     <a href="logout.php" class="logout"> <span class="material-symbols-outlined Sicons">logout</span><span class="lgout">Log Out</span></a>
   </div>
-
-
 
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>

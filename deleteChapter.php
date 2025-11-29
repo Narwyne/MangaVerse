@@ -166,7 +166,7 @@ $total_pages = ceil($total_manga / $limit);
 
 <!-- Sidebar (Right Side) -->
 <div class="sidebar" id="sidebar">
-    <a href="#">Profile</a>
+    <a href="profile.php">Profile</a>
     <a href="index.php">Home</a>
     <a href="#">About Us</a>
     <a href="logout.php" class="logout">Log Out</a>

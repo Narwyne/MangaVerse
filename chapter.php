@@ -123,7 +123,7 @@ body {
 
   <!-- Sidebar (Right Side) -->
 <div class="sidebar" id="sidebar">
-  <a href="#">Profile</a>
+  <a href="profile.php">Profile</a>
   <a href="#">About Us</a>
   <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
     <a href="adminPanel.php">Admin Panel</a>

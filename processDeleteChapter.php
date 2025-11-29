@@ -1,57 +1,50 @@
 <?php
-session_start();
+header("Content-Type: application/json");
+include "db.php";
 
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
-    echo "Unauthorized";
-    exit();
+if (!isset($_POST['chapter_id'])) {
+    echo json_encode(["status" => "error", "message" => "Missing chapter ID"]);
+    exit;
 }
 
-include 'db.php'; // FIXED — use correct DB file
-
-if (!isset($_POST['manga_id']) || !isset($_POST['chapter_id'])) {
-    echo "Missing data.";
-    exit();
-}
-
-$manga_id = (int)$_POST['manga_id'];
 $chapter_id = (int)$_POST['chapter_id'];
 
-// --- GET CHAPTER INFO ---
-$sql = "SELECT chapter_number, images_folder FROM chapters WHERE id = $chapter_id AND manga_id = $manga_id";
+// Get chapter info (folder path)
+$sql = "SELECT images_folder FROM chapters WHERE id = $chapter_id LIMIT 1";
 $result = $conn->query($sql);
 
-if ($result->num_rows == 0) {
-    echo "Chapter not found.";
-    exit();
+if ($result->num_rows === 0) {
+    echo json_encode(["status" => "error", "message" => "Chapter not found"]);
+    exit;
 }
 
 $row = $result->fetch_assoc();
-$chapter_number = $row['chapter_number'];
-$folder = $row['images_folder'];
+$folderPath = $row['images_folder'];  // Example: chapters/manga_21/chapter_3
 
-// --- DELETE FOLDER ---
-$fullPath = __DIR__ . "/chapters/" . $folder;
-
-function deleteDir($dir) {
-    if (!file_exists($dir)) return;
+// ---------- DELETE FOLDER CONTENT ----------
+function deleteFolder($dir) {
+    if (!is_dir($dir)) return;
 
     $files = array_diff(scandir($dir), ['.', '..']);
+
     foreach ($files as $file) {
-        $path = "$dir/$file";
-        if (is_dir($path)) {
-            deleteDir($path);
+        $fullPath = $dir . "/" . $file;
+
+        if (is_dir($fullPath)) {
+            deleteFolder($fullPath); // recursive delete
         } else {
-            unlink($path);
+            unlink($fullPath); // delete file
         }
     }
-    rmdir($dir);
+
+    rmdir($dir); // delete empty chapter folder
 }
 
-deleteDir($fullPath);
+// Delete chapter folder
+deleteFolder($folderPath);
 
-// --- DELETE FROM DATABASE ---
-$deleteSQL = "DELETE FROM chapters WHERE id = $chapter_id";
-$conn->query($deleteSQL);
+// ---------- DELETE DATABASE ENTRY ----------
+$conn->query("DELETE FROM chapters WHERE id = $chapter_id");
 
-header("Location: deleteChapter.php?success=1");
-exit();
+echo json_encode(["status" => "success"]);
+?>

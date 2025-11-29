@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: 'Istok Web', sans-serif;
+    background: #1e1e1e;
+    color: #fff;
+}
+
+.profile-header {
+    position: relative;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.profile-header .overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.profile-info {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-info .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ffcc00;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.profile-info h1 {
+    margin: 5px 0;
+    font-size: 1.8em;
+    color: #ffcc00;
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 1em;
+    color: #ccc;
+}
+
+.profile-actions {
+    max-width: 500px;
+    margin: 30px auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.profile-actions form {
+    margin-bottom: 20px;
+}
+
+.profile-actions label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.profile-actions input[type="file"],
+.profile-actions input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.profile-actions button {
+    background: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.profile-actions button:hover {
+    background: #ffdb4d;
+}
