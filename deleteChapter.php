@@ -37,6 +37,15 @@ $total_row = $total_result->fetch_assoc();
 $total_manga = $total_row['total'];
 $total_pages = ceil($total_manga / $limit);
 
+// ---------- FETCH MANGA DATA WITH CHAPTER COUNT ----------
+$sql = "
+  SELECT m.*, 
+         (SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id) AS chapter_count
+  FROM manga m
+  ORDER BY date_added DESC
+  LIMIT $limit OFFSET $offset
+";
+$result = $conn->query($sql);
 
 // ---------- TOTAL COUNT FOR PAGINATION ----------
 // Get total number of manga to calculate how many pages we need
@@ -52,7 +61,7 @@ $total_pages = ceil($total_manga / $limit);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>addChapter</title>
+    <title>deleteChapter</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/aPanel.css">
@@ -79,7 +88,7 @@ $total_pages = ceil($total_manga / $limit);
         <button onclick="window.location.href='deleteManga.php';">Delete Manga</button>
     </div>
     <div class="panel aMain">
-        <div class="mTop mmm">Add Chapter</div>
+        <div class="mTop mmm">Delete Chapter</div>
             <div class="mMain">
 
                       <form method="GET" action="deleteChapter.php" class="search-bar">
@@ -112,7 +121,7 @@ $total_pages = ceil($total_manga / $limit);
                                                 <h3>" . htmlspecialchars($row['title']) . "</h3>
                                                 <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
                                                 <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                                                <p><b>Chapters:</b> 0</p>
+                                                <p><b>Chapters:</b> " . $row['chapter_count'] . "</p>
                                             </div>
                                         </div>
                                         <button class='delete-chapter-btn' onclick=\"openModal(" . (int)$row['id'] . ")\">Delete Chapter</button>

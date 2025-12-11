@@ -204,7 +204,7 @@ body{
         }
 
         echo "
-          <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+          <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
             <div class='manga-card'>
               <div class='manga-content'>
                 <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>

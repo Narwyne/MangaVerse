@@ -144,7 +144,7 @@ body {
 </div>
  
   <h1>Chapter <?= $chapter['chapter_number'] ?> <?= htmlspecialchars($chapter['chapter_title']) ?></h1>
-  <a href="gago.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <a href="manga.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
   <?= htmlspecialchars($manga['title']) ?>
   </a>
 
@@ -169,7 +169,7 @@ body {
   }
   ?>
   
-  <a href="gago.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <a href="manga.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
   <?= htmlspecialchars($manga['title']) ?>
   </a>
   

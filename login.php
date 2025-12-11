@@ -1,16 +1,16 @@
 <?php
 session_start();
-
 include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $conn->real_escape_string($_POST['username']);
   $password = $_POST['password'];
 
+  // Run query
   $sql = "SELECT * FROM users WHERE username='$username'";
   $result = $conn->query($sql);
 
-  if ($result->num_rows === 1) {
+  if ($result && $result->num_rows === 1) {
     $row = $result->fetch_assoc();
     if (password_verify($password, $row['password'])) {
       $_SESSION['username'] = $row['username'];
@@ -23,10 +23,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
       exit();
     } else {
-      echo "<script>alert('Incorrect password');</script>";
+      // Incorrect password → show modal
+      echo "<script>
+              document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('passwordModal').style.display = 'block';
+              });
+            </script>";
     }
   } else {
-    echo "<script>alert('User not found');</script>";
+    // User not found → show modal
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+              document.getElementById('userModal').style.display = 'block';
+            });
+          </script>";
   }
 }
 ?>
@@ -200,6 +210,40 @@ input[type="checkbox"] {
   display: flex;
   text-align: start;
 }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #111;
+  margin: 15% auto;
+  padding: 5px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  color: #fff;
+  border-top: 4px solid #efbf04;
+  padding-bottom: 20px;
+}
+
+.modal-content h2 {
+  color: #efbf04;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+.close:hover {
+  color: #fff;
+}
 </style>
 </head>
 <body>
@@ -218,8 +262,6 @@ input[type="checkbox"] {
         <input type="password" id="password" name="password" required />
 
         <div class="options">
-          <label><input type="checkbox" /> Remember me</label>
-          <a href="#">Forget Password?</a>
         </div>
 
         <button class="login-btn" type="submit">Log in</button>
@@ -230,5 +272,47 @@ input[type="checkbox"] {
       </div>
     </div>
   </div>
+
+
+<!-- Incorrect Password Modal -->
+<div id="passwordModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span><br>
+    <h2>Incorrect Password</h2>
+    <p>Please try again.</p>
+  </div>
+</div>
+
+<!-- User Not Found Modal -->
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span><br>
+    <h2>User Not Found</h2>
+    <p>Please register or check your username.</p>
+  </div>
+</div>
+
+<script>
+  function setupModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    const closeBtn = modal.querySelector(".close");
+
+    closeBtn.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+
+  setupModal("usernameModal");
+  setupModal("passwordModal");
+  setupModal("userModal");
+</script>
+
 </body>
 </html>

@@ -15,11 +15,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirmPassword'];
 
-  if ($password !== $confirmPassword) {
+  // Check if username already exists
+  $checkSql = "SELECT id FROM users WHERE username = '$username'";
+  $checkResult = $conn->query($checkSql);
+
+  if ($checkResult->num_rows > 0) {
+    // Username taken → trigger modal
+    echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+              document.getElementById('usernameModal').style.display = 'block';
+            });
+          </script>";
+  } elseif ($password !== $confirmPassword) {
     echo "<script>alert('Passwords do not match');</script>";
   } else {
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
-    $role = $_POST['role']; // 'user' or 'admin'
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $role = $_POST['role'];
 
     $sql = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$hashedPassword', '$role')";
     if ($conn->query($sql) === TRUE) {
@@ -200,6 +211,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       display: flex;
       text-align: start;
     }
+  .modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+    }
+
+  .modal-content {
+    background-color: #111;
+    margin: 15% auto;
+    padding: 5px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    color: #fff;
+    border-top: 4px solid #efbf04;
+  }
+
+  .modal-content h2 {
+    color: #efbf04;
+  }
+
+  .close {
+    display: inline;
+    color: #aaa;
+    float: right;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: #fff;
+  }
   </style>
 </head>
 <body>
@@ -237,5 +283,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
+
+
+<!-- Username Taken Modal -->
+<div id="usernameModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span><br>
+    <h2>Username Already Taken</h2>
+    <p>Please choose a different username.</p>
+  </div>
+</div>
+
+<script>
+  // Get modal and close button
+  const modal = document.getElementById("usernameModal");
+  const closeBtn = document.querySelector("#usernameModal .close");
+
+  // Close when clicking the X
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  // Close when clicking outside the modal
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
 </body>
 </html>

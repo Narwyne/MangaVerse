@@ -10,11 +10,11 @@ if (!isset($_SESSION['username'])) {
 include 'db.php';
 
 // ---------- FETCH RECOMMENDATIONS ----------
-$rec_sql = "SELECT * FROM manga ORDER BY RAND() LIMIT 8"; // 6 random recommendations
-$rec_result = $conn->query($rec_sql);
-
-// $rec_sql = "SELECT * FROM manga WHERE id IN (2,5,7)"; // specific recommendations
+// $rec_sql = "SELECT * FROM manga ORDER BY RAND() LIMIT 8"; // 6 random recommendations
 // $rec_result = $conn->query($rec_sql);
+
+$rec_sql = "SELECT * FROM manga WHERE id IN (12,11,1,8,7,19,17,14)"; // specific recommendations
+$rec_result = $conn->query($rec_sql);
 
 // ---------- PAGINATION SETUP ----------
 $limit = 15; // 3x5 layout = 15 cards per page
@@ -256,7 +256,7 @@ $result = $conn->query($sql);
               $safeStatus = addslashes($row['status']);
 
               echo "
-                <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                   <div class='manga-card'>
                     <div class='manga-content '>
                       <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
@@ -288,7 +288,7 @@ $result = $conn->query($sql);
               }
 
               echo "
-                <a href='gago.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                   <div class='recommend-card'>
                     <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
                     <h4 class='recommend-title'>" . htmlspecialchars($row['title']) . "</h4>
@@ -301,7 +301,7 @@ $result = $conn->query($sql);
           }
           ?>
         </div>
-</div>
+      </div>
 
 
         <div class="item item5">

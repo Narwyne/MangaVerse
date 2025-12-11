@@ -37,6 +37,15 @@ $total_row = $total_result->fetch_assoc();
 $total_manga = $total_row['total'];
 $total_pages = ceil($total_manga / $limit);
 
+// ---------- FETCH MANGA DATA WITH CHAPTER COUNT ----------
+$sql = "
+  SELECT m.*, 
+         (SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id) AS chapter_count
+  FROM manga m
+  ORDER BY date_added DESC
+  LIMIT $limit OFFSET $offset
+";
+$result = $conn->query($sql);
 
 // ---------- TOTAL COUNT FOR PAGINATION ----------
 // Get total number of manga to calculate how many pages we need
@@ -113,7 +122,7 @@ $total_pages = ceil($total_manga / $limit);
                                                 <h3>" . htmlspecialchars($row['title']) . "</h3>
                                                 <p><b>Tags:</b> " . htmlspecialchars($row['genres']) . "</p>
                                                 <p><b>Status:</b> " . htmlspecialchars($row['status']) . "</p>
-                                                <p><b>Chapters:</b> 0</p>
+                                                <p><b>Chapters:</b> " . $row['chapter_count'] . "</p>
                                             </div>
                                         </div>
                                         <button class='add-chapter-btn' onclick=\"openModal(" . (int)$row['id'] . ")\">Add Chapter</button>
