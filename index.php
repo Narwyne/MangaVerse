@@ -64,6 +64,7 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="css/sidebar.css">
   <title>Home</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
   <script src="Scripts/caroselScript.js" defer></script>
   <script src="Scripts/sidebarScript.js" defer></script>
 
@@ -205,6 +206,7 @@ $result = $conn->query($sql);
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
     <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
+    <a href="bookmark.php" class="admin"> <span class="material-symbols-outlined Sicons">bookmark</span> Bookmark</a>
     <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
       <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined Sicons">admin_panel_settings</span> Admin Panel</a>

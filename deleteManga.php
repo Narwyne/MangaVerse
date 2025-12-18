@@ -30,6 +30,17 @@ if (!empty($search)) {
 $sql = "SELECT * FROM manga $whereClause ORDER BY date_added DESC LIMIT $limit OFFSET $offset";
 $result = $conn->query($sql);
 
+// Fetch manga with chapter count
+$sql = "
+  SELECT m.*, 
+         (SELECT COUNT(*) FROM chapters c WHERE c.manga_id = m.id) AS chapter_count
+  FROM manga m
+  $whereClause
+  ORDER BY date_added DESC
+  LIMIT $limit OFFSET $offset
+";
+$result = $conn->query($sql);
+
 $total_sql = "SELECT COUNT(*) AS total FROM manga $whereClause";
 $total_result = $conn->query($total_sql);
 $total_row = $total_result->fetch_assoc();
@@ -59,6 +70,7 @@ $total_pages = ceil($total_manga / $limit);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>deleteManga</title>
+      <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/aPanel.css">

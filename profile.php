@@ -27,6 +27,7 @@ $backgroundPic = !empty($profile['background_pic']) ? $profile['background_pic']
 <html>
 <head>
     <title>Profile</title>
+      <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/profile.css">
       <script src="Scripts/sidebarScript.js" defer></script>

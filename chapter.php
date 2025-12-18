@@ -65,6 +65,7 @@ $result = $conn->query($sql);
 <html>
 <head>
   <meta charset="UTF-8">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />

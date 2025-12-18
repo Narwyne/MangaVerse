@@ -23,6 +23,7 @@ $manga = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($manga['title']); ?></title>
+      <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -67,7 +68,7 @@ $manga = $result->fetch_assoc();
 .Manga-contents {
     grid-column: 1 / 7;
     background-color: rgba(41, 41, 41, 1);
-    height: 650px;
+    height: auto;
     max-height: max-content;
 }
 .Genres-Status-top {
@@ -140,6 +141,24 @@ $manga = $result->fetch_assoc();
     margin-bottom: 15px;
     border-radius: 0px 0px 8px 8px ;
 }
+.bookmarkBtn {
+    position: absolute;
+    height: 40px;
+    width: 150px;
+    top: 450px;
+    left: 152px;
+    background-color: rgb(50,205,50);
+    border-radius: 5px;
+    font-size: 17px;
+    color: white;
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+.bookmarkBtn:hover {
+    background-color: rgb(34,139,34);
+}
 </style>
 
     <!-- Sidebar (Right Side) -->
@@ -162,12 +181,13 @@ $manga = $result->fetch_assoc();
           <input type="text" name="search" placeholder="Search...">
           <button type="submit"><span class="material-symbols-outlined">search</span></button>
         </form>
-      <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
+        <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
   </div>
 
     <div class="Manga-background-picture">
         <div class="Manga-picture"></div>
         <h1 class="title"><?php echo htmlspecialchars($manga['title']); ?></h1>
+        <button class="bookmarkBtn admin"><span class="material-symbols-outlined ">bookmark_add</span>Bookmark</button>
     </div>
 
     <div class="Manga-contents">
