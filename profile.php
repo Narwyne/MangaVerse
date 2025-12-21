@@ -173,6 +173,7 @@ $backgroundPic = !empty($profile['background_pic']) ? $profile['background_pic']
   <div class="sidebar" id="sidebar">
     <!-- <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a> -->
     <a href="index.php" class="admin"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="bookmark.php" class="admin"> <span class="material-symbols-outlined Sicons">bookmark</span> Bookmark</a>
     <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
       <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined Sicons">admin_panel_settings</span> Admin Panel</a>

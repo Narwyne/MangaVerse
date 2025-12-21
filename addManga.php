@@ -210,16 +210,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- Sidebar (Right Side) -->
-<div class="sidebar" id="sidebar">
-    <a href="profile.php">Profile</a>
-    <a href="index.php">Home</a>
-    <a href="#">About Us</a>
-    <a href="logout.php" class="logout">Log Out</a>
-</div>
-
-<!-- Overlay -->
-<div class="overlay" id="overlay"></div>
+        <!-- Sidebar (Right Side) -->
+        <div class="sidebar" id="sidebar">
+            <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
+            <a href="index.php" class="admin"><span class="material-symbols-outlined">home</span>Home</a>
+            <a href="bookmark.php" class="admin"> <span class="material-symbols-outlined Sicons">bookmark</span> Bookmark</a>
+            <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
+            <a href="logout.php" class="logout"> <span class="material-symbols-outlined Sicons">logout</span><span class="lgout">Log Out</span></a>
+        </div>
+        <!-- Overlay -->
+        <div class="overlay" id="overlay"></div>
 
 <script>
     // Preview uploaded image

@@ -22,6 +22,7 @@ $manga = $result->fetch_assoc();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($manga['title']); ?></title>
       <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/home.css">
@@ -125,7 +126,7 @@ $manga = $result->fetch_assoc();
     padding: 10px;
     border-bottom: 2px solid #333;
     width: 1050px;
-    background-color: rgba(239, 191, 4, 1);;
+    background-color: rgba(239, 191, 4, 1);
     margin-top: 15px;
     margin-left: 320px;
     border-radius: 8px 8px 0px 0px ;
@@ -147,7 +148,7 @@ $manga = $result->fetch_assoc();
     width: 150px;
     top: 450px;
     left: 152px;
-    background-color: rgb(50,205,50);
+    background-color: rgba(239, 191, 4, 1);
     border-radius: 5px;
     font-size: 17px;
     color: white;
@@ -157,18 +158,19 @@ $manga = $result->fetch_assoc();
     cursor: pointer;
 }
 .bookmarkBtn:hover {
-    background-color: rgb(34,139,34);
+    background-color: rgba(161, 129, 0, 1);
 }
 </style>
 
-    <!-- Sidebar (Right Side) -->
+  <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
-    <a href="profile.php">Profile</a>
-    <a href="#">About Us</a>
+    <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
+    <a href="bookmark.php" class="admin"> <span class="material-symbols-outlined Sicons">bookmark</span> Bookmark</a>
+    <a href="#" class="admin" > <span class="material-symbols-outlined Sicons">info</span> About Us</a>
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <a href="adminPanel.php">Admin Panel</a>
+      <a href="adminPanel.php" class="admin"> <span class="material-symbols-outlined Sicons">admin_panel_settings</span> Admin Panel</a>
     <?php endif; ?>
-    <a href="logout.php" class="logout">Log Out</a>
+    <a href="logout.php" class="logout"> <span class="material-symbols-outlined Sicons">logout</span><span class="lgout">Log Out</span></a>
   </div>
 
   <!-- Overlay -->
