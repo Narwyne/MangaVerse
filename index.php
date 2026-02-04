@@ -72,7 +72,6 @@ $result = $conn->query($sql);
 <body>
 
 <style>
-  
   .manga-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -82,7 +81,6 @@ $result = $conn->query($sql);
   padding-left: 5px;
   padding-right: 5px;
 }
-
 .manga-card {
   background-color: #1e1e1e;
   border-radius:9px;

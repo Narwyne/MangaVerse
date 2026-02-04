@@ -1,0 +1,88 @@
+body {
+    background-color: rgba(41, 41, 41, 1);
+    margin: 0%;
+}
+.header {
+    background-color: rgba(19, 18, 18, 1);
+    height: 60px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+.header button {
+    width: 43px;
+    height: 43px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header button:hover {
+    background-color: rgba(239, 191, 4, 1);
+    border-radius: 5px;
+}
+#logo{
+    height: 40px;
+    width: 140px;
+    background-image: url(../pictures/MangaVerse.png);
+    background-size: 140px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 9px;
+    justify-content: flex-start;
+    margin-top: 11px;
+}
+.material-symbols-outlined {
+    font-size: 28px;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #4a4a4a; /* dark gray */
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 150px; /* adjust width as you like */
+    min-width: 100px;
+    height: 40px;
+    position: relative;
+    right: 10px;
+    margin-top: 9px;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: white;
+    padding: 0 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-bar button {
+    background-color: #efbf04; /* yellow */
+    border: none;
+    width: 45px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #d4a703; /* darker yellow on hover */
+}
+
+.search-bar .material-symbols-outlined {
+    color: #4a4a4a;
+    font-size: 24px;
+}
+#menuBtn{
+    margin-top: 9px;
+    margin-right: 9px;
+}
