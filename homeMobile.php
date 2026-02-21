@@ -132,8 +132,8 @@ $result = $conn->query($sql);
 }
 
 .recommend-card img {
-  width: 115px;
-  height: 145px;
+  width: 110px;
+  height: 140px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -255,12 +255,16 @@ $result = $conn->query($sql);
     pointer-events: none;
 }
 footer {
-    margin: 5px 5px 10px 5px; /* Matches the margin of your other sections */
+    /* margin: 5px 5px 10px 5px; */
     border-radius: 5px;
     border-top: 1px solid #333; /* Subtle line to separate from content */
 }
 </style>
-    
+    <script>
+  if (window.innerWidth >= 600) {
+    window.location.href = "index.php";
+  }
+</script>
 </head>
 <body>
     <div class="container">
@@ -285,7 +289,7 @@ footer {
             }
 
             echo "
-            <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+            <a href='mangaMobile.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                 <div class='recommend-card'>
                 <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
                 <h4 class='recommend-title'>" . htmlspecialchars($row['title']) . "</h4>
@@ -318,7 +322,7 @@ if ($result->num_rows > 0) {
         $safeStatus = addslashes($row['status']);
 
         echo "
-        <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+        <a href='mangaMobile.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
             <div class='manga-card'>
             <div class='manga-content '>
                 <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>

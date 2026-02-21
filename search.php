@@ -41,7 +41,7 @@ body{
     background-color: rgba(41, 41, 41, 1);
 }
 .searchTop{
-    width: auto;
+    width: 100%;
     height: 65px;
     background-color: rgba(239, 191, 4, 1);
     display: flex;
@@ -183,11 +183,11 @@ body{
 
 <div class="item header">
     <a href="index.php"><div id="logo"></div></a>
-      <form method="GET" action="search.php" class="search-bar">
-          <input type="text" name="search" placeholder="Search...">
-          <button type="submit"><span class="material-symbols-outlined">search</span></button>
-      </form>
-    <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
+        <form method="GET" action="search.php" class="search-bar">
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+        <button id="menuBtn"><span class="material-symbols-outlined">menu</span></button>
 </div>
 
 <div class="searchTop">
@@ -205,7 +205,7 @@ body{
         }
 
         echo "
-          <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+          <a href='mangaMobile.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
             <div class='manga-card'>
               <div class='manga-content'>
                 <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>

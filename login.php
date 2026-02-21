@@ -3,43 +3,43 @@ session_start();
 include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = $conn->real_escape_string($_POST['username']);
+  $username = $_POST['username'];
   $password = $_POST['password'];
 
-  // Run query
-  $sql = "SELECT * FROM users WHERE username='$username'";
-  $result = $conn->query($sql);
+  // 1. Prepare the statement
+  $stmt = $conn->prepare("SELECT username, password, role FROM users WHERE username = ?");
+  
+  // 2. Bind the user input ( "s" means it's a string )
+  $stmt->bind_param("s", $username);
+  
+  // 3. Execute and get result
+  $stmt->execute();
+  $result = $stmt->get_result();
 
   if ($result && $result->num_rows === 1) {
     $row = $result->fetch_assoc();
+    
     if (password_verify($password, $row['password'])) {
       $_SESSION['username'] = $row['username'];
       $_SESSION['role'] = $row['role'];
 
-      if ($row['role'] === 'admin') {
-        header("Location: adminPanel.php");
-      } else {
-        header("Location: index.php");
-      }
+      header("Location: " . ($row['role'] === 'admin' ? "adminPanel.php" : "index.php"));
       exit();
     } else {
-      // Incorrect password → show modal
-      echo "<script>
-              document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById('passwordModal').style.display = 'block';
-              });
-            </script>";
+      $showPasswordModal = true;
     }
   } else {
-    // User not found → show modal
-    echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-              document.getElementById('userModal').style.display = 'block';
-            });
-          </script>";
+    $showUserModal = true;
   }
+  $stmt->close(); // Always close the statement
 }
 ?>
+<?php if(isset($showPasswordModal)): ?>
+  <script>document.addEventListener('DOMContentLoaded', () => document.getElementById('passwordModal').style.display = 'block');</script>
+<?php endif; ?>
+<?php if(isset($showUserModal)): ?>
+  <script>document.addEventListener('DOMContentLoaded', () => document.getElementById('userModal').style.display = 'block');</script>
+<?php endif; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -190,13 +190,10 @@ input[type="checkbox"] {
 }
 
 .top-logo {
-  position: absolute;
-  right: 40%;
-  top: 60px;
+  display: block;
   width: 300px;
+  margin: 60px auto 20px auto; /* top right bottom left */
   text-align: center;
-  justify-content: center;
-
 }
 
 .top-logo h1 {
@@ -245,6 +242,26 @@ input[type="checkbox"] {
 .close:hover {
   color: #fff;
 }
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 60px; /* space for the text */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 14px;
+  color: #007bff;
+  user-select: none;
+}
 </style>
 </head>
 <body>
@@ -259,11 +276,12 @@ input[type="checkbox"] {
         <label class="linput" for="username">Username :</label>
         <input type="text" id="username" name="username" required />
 
-        <label class="linput" for="password">Password :</label>
-        <input type="password" id="password" name="password" required />
+      <label class="linput" for="password">Password :</label>
 
-        <div class="options">
-        </div>
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password" required />
+        <span class="toggle-password" onclick="togglePassword()"></span>
+      </div>
 
         <button class="login-btn" type="submit">Log in</button>
       </form>
@@ -315,5 +333,20 @@ input[type="checkbox"] {
   setupModal("userModal");
 </script>
 
+<script>
+function togglePassword() {
+  const password = document.getElementById("password");
+  const toggle = document.querySelector(".toggle-password");
+
+  if (password.type === "password") {
+    password.type = "text";
+    toggle.textContent = "Hide";
+  } else {
+    password.type = "password";
+    toggle.textContent = "Show";
+visibility
+  }
+}
+</script>
 </body>
 </html>

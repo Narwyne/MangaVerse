@@ -1,4 +1,6 @@
 <?php
+mysqli_report(MYSQLI_REPORT_OFF); // Turn off internal reporting for production
+
 $host = "localhost"; // usually localhost
 $user = "root";      // your MySQL username
 $pass = "";          // your MySQL password (empty in XAMPP)

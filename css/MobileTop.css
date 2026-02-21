@@ -43,9 +43,9 @@ body {
     display: flex;
     align-items: center;
     background-color: #4a4a4a; /* dark gray */
-    border-radius: 10px;
+    border-radius: 6px;
     overflow: hidden;
-    max-width: 150px; /* adjust width as you like */
+    max-width: 50px; /* adjust width as you like */
     min-width: 100px;
     height: 40px;
     position: relative;
@@ -58,6 +58,7 @@ body {
     border: none;
     background: transparent;
     color: white;
+    width: 50px;
     padding: 0 10px;
     outline: none;
     font-size: 16px;

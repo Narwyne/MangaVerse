@@ -66,6 +66,7 @@ $result = $conn->query($sql);
 <head>
   <meta charset="UTF-8">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+            <!-- <link rel="stylesheet" href="css/MobileTop.css"> -->
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -80,7 +81,7 @@ body {
 }
 .chapter-image {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px  ;
   margin:  auto;
   display: block;
   box-shadow: 0 0 10px rgba(255,255,255,0.1);
@@ -146,7 +147,7 @@ body {
 </div>
  
   <h1>Chapter <?= $chapter['chapter_number'] ?> <?= htmlspecialchars($chapter['chapter_title']) ?></h1>
-  <a href="manga.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <a href="mangaMobile.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
   <?= htmlspecialchars($manga['title']) ?>
   </a>
 
@@ -171,7 +172,7 @@ body {
   }
   ?>
   
-  <a href="manga.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
+  <a href="mangaMobile.php?id=<?= $chapter['manga_id'] ?>" class="nav-link back">
   <?= htmlspecialchars($manga['title']) ?>
   </a>
   

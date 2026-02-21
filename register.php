@@ -1,43 +1,36 @@
 <?php
-$host = 'localhost';
-$db = 'mangaverse';
-$user = 'root';
-$pass = '';
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = $conn->real_escape_string($_POST['username']);
-  $email = $conn->real_escape_string($_POST['email']);
+  $username = $_POST['username'];
+  $email = $_POST['email'];
   $password = $_POST['password'];
   $confirmPassword = $_POST['confirmPassword'];
+  $role = "user"; // Hardcoded for safety
 
-  // Check if username already exists
-  $checkSql = "SELECT id FROM users WHERE username = '$username'";
-  $checkResult = $conn->query($checkSql);
-
-  if ($checkResult->num_rows > 0) {
-    // Username taken → trigger modal
-    echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-              document.getElementById('usernameModal').style.display = 'block';
-            });
-          </script>";
-  } elseif ($password !== $confirmPassword) {
+  if ($password !== $confirmPassword) {
     echo "<script>alert('Passwords do not match');</script>";
   } else {
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $role = $_POST['role'];
+    // 1. Check if username is taken using Prepared Statement
+    $checkStmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+    $checkStmt->bind_param("s", $username);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
 
-    $sql = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$hashedPassword', '$role')";
-    if ($conn->query($sql) === TRUE) {
-      echo "<script>alert('Registration successful'); window.location.href='login.php';</script>";
+    if ($checkResult->num_rows > 0) {
+      $showUsernameModal = true;
     } else {
-      echo "<script>alert('Error: " . $conn->error . "');</script>";
+      // 2. Insert new user securely
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+      $insertStmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
+      $insertStmt->bind_param("ssss", $username, $email, $hashedPassword, $role);
+      
+      if ($insertStmt->execute()) {
+        echo "<script>alert('Registration successful'); window.location.href='login.php';</script>";
+      }
+      $insertStmt->close();
     }
+    $checkStmt->close();
   }
 }
 ?>
@@ -191,12 +184,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .top-logo {
-      position: absolute;
-      right: 40%;
-      top: 25px;
+      display: block;
       width: 300px;
+      margin: 60px auto 20px auto; /* top right bottom left */
       text-align: center;
-      justify-content: center;
 
     }
 

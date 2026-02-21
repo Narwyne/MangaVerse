@@ -201,6 +201,16 @@ $result = $conn->query($sql);
 }
 </style>
 
+<script>
+  if (window.innerWidth <= 600) {
+    window.location.href = "homeMobile.php";
+    // Run immediately
+  checkDevice();
+  // Also run if the user drags the browser window smaller
+  window.addEventListener('resize', checkDevice);
+}
+</script>
+
   <!-- Sidebar (Right Side) -->
   <div class="sidebar" id="sidebar">
     <a href="profile.php" class="admin"> <span class="material-symbols-outlined Sicons">account_circle</span> Profile</a>
@@ -256,7 +266,7 @@ $result = $conn->query($sql);
               $safeStatus = addslashes($row['status']);
 
               echo "
-                <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                <a href='mangaMobile.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                   <div class='manga-card'>
                     <div class='manga-content '>
                       <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
@@ -288,7 +298,7 @@ $result = $conn->query($sql);
               }
 
               echo "
-                <a href='manga.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
+                <a href='mangaMobile.php?id=" . $row['id'] . "' style='text-decoration:none; color:inherit;'>
                   <div class='recommend-card'>
                     <img src='" . htmlspecialchars($imagePath) . "' alt='" . htmlspecialchars($row['title']) . "'>
                     <h4 class='recommend-title'>" . htmlspecialchars($row['title']) . "</h4>
